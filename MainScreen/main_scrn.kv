@@ -1,0 +1,124 @@
+# Darkgrey:       ()
+
+<BackgroundColor@Widget>:
+    background_color:       (.306, .322, .329, 1)
+    canvas.before:
+        Color:
+            rgba:           root.background_color
+        Rectangle:
+            size:           self.size
+            pos:            self.pos
+
+<BackgroundLabel@Label+BackgroundColor>
+    background_color:       (0, 0, 0, 0)
+
+<FlatButton@ButtonBehavior+BackgroundLabel>
+    # Customized Label widget inheriting from ButtonBehaviour Class
+    font_size:              16
+
+<MainScreen>:
+    id:                     main_win
+    orientation:            "vertical"
+    canvas.before:
+        Color:
+            rgba:           (.349, .357, .365, 1)    # Colors from 0 to 1, red, green, blue, alpha
+        Rectangle:
+            size:           self.size
+            pos:            self.pos
+
+    BoxLayout:
+        size_hint_y:            .1
+        padding:                0.5
+        FlatButton:
+            text:               "File"
+            background_normal:  ''
+            background_color:   (.169, .169, .169, 1)
+            size_hint_x:        None
+            width:              100
+        BackgroundLabel:
+            text:               "Welcome to AMB Post-Processor     "
+            background_color:   (.169, .169, .169, 1)
+        FlatButton:
+            text:               "x"
+            background_normal:  ''
+            background_color:   (.169, .169, .169, 1)
+            size_hint_x:        None
+            width:              20
+    BoxLayout:
+        padding:                1
+        GridLayout:
+            id:                 proj_list
+            cols:               1
+            size_hint_x:        .382
+            padding:            1
+            spacing:            1
+            canvas.before:
+                Color:
+                    rgba:           (.192, .2, .208, 1)
+                Rectangle:
+                    size:           self.size
+                    pos:            self.pos
+            Button:
+                size_hint_y:        None
+                height:             50
+                text:               "Project_1"
+                background_normal:  ""
+                background_color:   (.306, .322, .329, 1)
+            Button:
+                size_hint_y:        None
+                height:             50
+                text:               "Project_2"
+                background_normal:  ""
+                background_color:   (.306, .322, .329, 1)
+        BoxLayout:
+            size_hint_x:        .618
+            orientation:        "vertical"
+            spacing:            10
+            padding:            100
+            Label:
+                text:           ""
+                size_hint_y:    .4
+            FlatButton:
+                text:           "   New Project"
+                size_hint_y:    None
+                size:           self.texture_size
+                text_size:      self.size
+                halign:         "left"
+                font_size:      20
+                bold:           True
+            FlatButton:
+                text:           "   Copy Project"
+                size_hint_y:    None
+                size:           self.texture_size
+                text_size:      self.size
+                halign:         "left"
+                font_size:      20
+                bold:           True
+            FlatButton:
+                text:           "   Open Project"
+                size_hint_y:    None
+                size:           self.texture_size
+                text_size:      self.size
+                halign:         "left"
+                font_size:      20
+                bold:           True
+            FlatButton:
+                text:           "   Delete Project"
+                size_hint_y:    None
+                size:           self.texture_size
+                text_size:      self.size
+                halign:         "left"
+                font_size:      20
+                bold:           True
+            Label:
+                text:           ""
+                size_hint_y:    .4
+    BackgroundLabel:
+        text:                   "Copyright by AMIC Angewandte Micro-Messtechnik GmbH    "
+        background_color:       (.169, .169, .169, 1)
+        size_hint_y:            .08
+        text_size:              self.size
+        halign:                 "right"
+        valign:                 "middle"
+        font_size:              12
+
