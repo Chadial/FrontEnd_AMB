@@ -1,7 +1,19 @@
-# Darkgrey:       ()
+# Define colors:
+#:set grey_0 (.169, .169, .169, 1)  #
+#:set grey_1 (.196, .196, .196, 1)  #
+#:set grey_2 (.192, .200, .208, 1)  #
+#:set grey_3 (.235, .247, .255, 1)  #
+#:set grey_4 (.306, .322, .329, 1)  #
+#:set grey_5 (.333, .333, .333, 1)  #
+#:set grey_6 (.349, .357, .365, 1)  #
+#:set c1 grey_2
+#:set c2 grey_3
+#:set c3 grey_4
+#:set c4 grey_4
+#:set cl_tex (.686, .694, .702, 1)  # text_color
 
 <BackgroundColor@Widget>:
-    background_color:       (.306, .322, .329, 1)
+    background_color:       (.169, .169, .169, 1)
     canvas.before:
         Color:
             rgba:           root.background_color
@@ -9,114 +21,139 @@
             size:           self.size
             pos:            self.pos
 
-<BackgroundLabel@Label+BackgroundColor>
+<BackgroundLabel@Label+BackgroundColor>:
     background_color:       (0, 0, 0, 0)
+    color:                  cl_tex
+    font_size:              18
 
-<FlatButton@ButtonBehavior+BackgroundLabel>
-    # Customized Label widget inheriting from ButtonBehaviour Class
-    font_size:              16
+<FlatButton@ButtonBehavior+BackgroundLabel>:
 
-<MainScreen>:
+<Button>:
+    size_hint_y:            None
+    height:                 50
+    font_size:              18
+    background_normal:      ""
+    background_color:       c3
+    color:                  cl_tex
+
+<MainMenu>:
     id:                     main_win
     orientation:            "vertical"
+    padding:                0.2
     canvas.before:
         Color:
-            rgba:           (.349, .357, .365, 1)    # Colors from 0 to 1, red, green, blue, alpha
+            rgba:           (.0, .0, .1, 1)    # Colors from 0 to 1, red, green, blue, alpha
         Rectangle:
             size:           self.size
             pos:            self.pos
 
     BoxLayout:
-        size_hint_y:            .1
-        padding:                0.5
-        FlatButton:
-            text:               "File"
-            background_normal:  ''
-            background_color:   (.169, .169, .169, 1)
-            size_hint_x:        None
-            width:              100
-        BackgroundLabel:
-            text:               "Welcome to AMB Post-Processor     "
-            background_color:   (.169, .169, .169, 1)
-        FlatButton:
-            text:               "x"
-            background_normal:  ''
-            background_color:   (.169, .169, .169, 1)
-            size_hint_x:        None
-            width:              20
+        size_hint_y:            None
+        height:                 35
+        padding:                (0, .5)
+        BoxLayout:
+            size_hint_x:            .382
+            FlatButton:
+                text:               "Menu"
+                background_normal:  ''
+                background_color:   c1
+                size_hint_x:        None
+                width:              100
+            BackgroundLabel:
+                background_color:   c1
+        BoxLayout:
+            BackgroundLabel:
+                text:               "   AMB Post-Processor"
+                background_color:   c1
+                text_size:          self.size
+                halign:             "left"
+                valign:             "middle"
+                font_size:          20
     BoxLayout:
-        padding:                1
+        padding:                    (0, 1.5)
         GridLayout:
-            id:                 proj_list
-            cols:               1
-            size_hint_x:        .382
-            padding:            1
-            spacing:            1
+            id:                     cont_proj_list
+            cols:                   1
+            size_hint_x:            .382
+            padding:                (2, 1)
+            spacing:                1
             canvas.before:
                 Color:
-                    rgba:           (.192, .2, .208, 1)
+                    rgba:           c2
                 Rectangle:
                     size:           self.size
                     pos:            self.pos
             Button:
-                size_hint_y:        None
-                height:             50
                 text:               "Project_1"
-                background_normal:  ""
-                background_color:   (.306, .322, .329, 1)
             Button:
-                size_hint_y:        None
-                height:             50
                 text:               "Project_2"
-                background_normal:  ""
-                background_color:   (.306, .322, .329, 1)
-        BoxLayout:
-            size_hint_x:        .618
-            orientation:        "vertical"
-            spacing:            10
-            padding:            100
-            Label:
-                text:           ""
-                size_hint_y:    .4
-            FlatButton:
-                text:           "   New Project"
-                size_hint_y:    None
-                size:           self.texture_size
-                text_size:      self.size
-                halign:         "left"
-                font_size:      20
-                bold:           True
-            FlatButton:
-                text:           "   Copy Project"
-                size_hint_y:    None
-                size:           self.texture_size
-                text_size:      self.size
-                halign:         "left"
-                font_size:      20
-                bold:           True
-            FlatButton:
-                text:           "   Open Project"
-                size_hint_y:    None
-                size:           self.texture_size
-                text_size:      self.size
-                halign:         "left"
-                font_size:      20
-                bold:           True
-            FlatButton:
-                text:           "   Delete Project"
-                size_hint_y:    None
-                size:           self.texture_size
-                text_size:      self.size
-                halign:         "left"
-                font_size:      20
-                bold:           True
-            Label:
-                text:           ""
-                size_hint_y:    .4
+        GridLayout:
+            cols: 3
+            BoxLayout:
+                size_hint_x:        0.4
+                BackgroundLabel:
+                    background_color:   c4
+            BoxLayout:
+                size_hint_x:        .618
+                orientation:        "vertical"
+                spacing:            10
+                canvas.before:
+                    Color:
+                        rgba:       c4
+                    Rectangle:
+                        size:       self.size
+                        pos:        self.pos
+                Label:
+                    text:           ""
+                    size_hint_y:    .4
+                FlatButton:
+                    id:             btn_add_proj
+                    text:           "Add Project"
+                    size_hint_y:    None
+                    size:           self.texture_size
+                    text_size:      self.size
+                    halign:         "left"
+                    font_size:      20
+                    bold:           True
+                FlatButton:
+                    id:             btn_open_proj
+                    text:           "Open Project"
+                    size_hint_y:    None
+                    size:           self.texture_size
+                    text_size:      self.size
+                    halign:         "left"
+                    font_size:      20
+                    bold:           True
+                FlatButton:
+                    id:             btn_dupl_proj
+                    text:           "Duplicate Project"
+                    size_hint_y:    None
+                    size:           self.texture_size
+                    text_size:      self.size
+                    halign:         "left"
+                    font_size:      20
+                    bold:           True
+                FlatButton:
+                    id:             btn_dele_proj
+                    text:           "Delete Project"
+                    size_hint_y:    None
+                    size:           self.texture_size
+                    text_size:      self.size
+                    halign:         "left"
+                    font_size:      20
+                    bold:           True
+                Label:
+                    text:           ""
+                    size_hint_y:    .4
+            BoxLayout:
+                size_hint_x:        0.25
+                BackgroundLabel:
+                    background_color:   c4
     BackgroundLabel:
         text:                   "Copyright by AMIC Angewandte Micro-Messtechnik GmbH    "
-        background_color:       (.169, .169, .169, 1)
-        size_hint_y:            .08
+        background_color:       c1
+        size_hint_y:            None
+        height:                 25
         text_size:              self.size
         halign:                 "right"
         valign:                 "middle"

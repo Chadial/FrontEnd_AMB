@@ -10,7 +10,7 @@ from kivy.lang import Builder
 Builder.load_file('main_scrn.kv')
 
 
-class MainScreen(BoxLayout):
+class MainMenu(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -33,10 +33,10 @@ class MainScreen(BoxLayout):
                 info.text = '[color=#FF0000]Invalid Username and/ or Password[/color]'
 
 
-class MainScreenApp(App):
+class MainMenuApp(App):
     def build(self):
-        return MainScreen()
+        return MainMenu()
 
 
 if __name__ == "__main__":
-    MainScreenApp().run()
+    MainMenuApp().run()
