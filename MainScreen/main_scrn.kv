@@ -27,7 +27,7 @@
     color:                  cl_tex
     font_size:              18
 
-<FlatButton@ButtonBehavior+BackgroundLabel>:
+<FlatButton@ButtonBehavior+BackgroundLabel>
 
 <Button>:
     size_hint_y:            None
@@ -36,6 +36,8 @@
     background_normal:      ""
     background_color:       c3
     color:                  cl_tex
+
+<ToggleButton@Button>
 
 <MainMenu>:
     id:                     main_win
@@ -82,22 +84,28 @@
                 on_release:         app.stop()
     BoxLayout:
         padding:                    (0, 1.5)
-        GridLayout:
+        RecycleView:
             id:                     cont_proj_list
-            cols:                   1
+            viewclass:              "Button"
+            data:                   [{'text': 'Project_1'}, {'text': 'Project_2'}, {'text': 'Project_3'}, {'text': 'Project_4'}]
             size_hint_x:            .382
-            padding:                (2, 1)
-            spacing:                1
-            canvas.before:
-                Color:
-                    rgba:           c2
-                Rectangle:
-                    size:           self.size
-                    pos:            self.pos
-            Button:
-                text:               "Project_1"
-            Button:
-                text:               "Project_2"
+            RecycleGridLayout:
+                cols:                   1
+                default_size:           (None, None)
+                default_size_hint:      (1, None)
+                padding:                (2, 1)
+                spacing:                1
+                height:                 self.minimum_height
+                canvas.before:
+                    Color:
+                        rgba:           c2
+                    Rectangle:
+                        size:           self.size
+                        pos:            self.pos
+#            Button:
+#                text:               "Project_1"
+#            Button:
+#                text:               "Project_2"
         GridLayout:
             cols: 3
             BoxLayout:
