@@ -2,10 +2,17 @@
 From Samuel Courses - "Building a POS System with Python and Kivy" Playlist on Youtube
 https://www.youtube.com/watch?v=53Jtx3v9ZZU&list=PLW062AfleDZbWPQXjyMeLOlcL8aQ4aLeP&index=1
 """
+from kivy import Config
+win_px = 960
+Config.set('graphics', 'width', str(win_px))
+Config.set('graphics', 'height', str(int(win_px*0.618)))
+Config.set('graphics', 'minimum_width', str(int(win_px*0.5)))
+Config.set('graphics', 'minimum_height', str(int(win_px*0.618*.5)))
 
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.lang import Builder
+from kivy.core.window import Window, WindowBase
 
 Builder.load_file('main_scrn.kv')
 

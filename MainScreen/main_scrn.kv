@@ -1,3 +1,4 @@
+#:import App kivy.app.App
 # Define colors:
 #:set grey_0 (.169, .169, .169, 1)  #
 #:set grey_1 (.196, .196, .196, 1)  #
@@ -69,6 +70,16 @@
                 halign:             "left"
                 valign:             "middle"
                 font_size:          20
+            FlatButton:
+                text:               "x"
+                background_normal:  ''
+                background_color:   c1
+                text_size:          self.size
+                halign:             "center"
+                valign:             "middle"
+                size_hint_x:        None
+                width:              30
+                on_release:         app.stop()
     BoxLayout:
         padding:                    (0, 1.5)
         GridLayout:
