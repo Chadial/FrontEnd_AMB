@@ -24,8 +24,7 @@ Builder.load_string('''
         Rectangle:
             pos: self.pos
             size: self.size
-    background_color: (1, 0, 0, 1) if self.selected else (1, 1, 1, 1)
-    on_press: app.root.table.rv.on_mouse_select(self)
+
 <RV>: 
     viewclass: 'SelectableLabel'
     SelectableRecycleBoxLayout:
@@ -44,7 +43,7 @@ class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior,
     """ Adds selection and focus behaviour to the view. """
 
 
-class SelectableLabel(RecycleDataViewBehavior, Button):
+class SelectableLabel(RecycleDataViewBehavior, Label):
     """ Add selection support to the Label """
     index = None
     selected = BooleanProperty(False)
