@@ -10,8 +10,20 @@ Config.set('graphics', 'minimum_width', str(int(win_px*0.5)))
 Config.set('graphics', 'minimum_height', str(int(win_px*0.618*.5)))
 
 from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
 from kivy.lang import Builder
+
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.recycleview import RecycleView
+from kivy.uix.recycleview.views import RecycleDataViewBehavior
+from kivy.uix.recycleview.layout import LayoutSelectionBehavior
+from kivy.uix.recyclegridlayout import RecycleGridLayout
+from kivy.uix.behaviors import FocusBehavior
+
+from kivy.properties import NumericProperty, StringProperty, BooleanProperty
+
+
+
 from kivy.core.window import Window, WindowBase
 
 Builder.load_file('main_scrn.kv')
@@ -38,6 +50,22 @@ class MainMenu(BoxLayout):
                 self.parent.parent.current = "scrn_admin"
             else:
                 info.text = '[color=#FF0000]Invalid Username and/ or Password[/color]'
+
+
+class ProjectList(RecycleView):
+    def __init__(self, proj_list=[], *args, **kwargs):
+        super(ProjectList, self).__init__(*args, **kwargs)
+
+        self.data = []
+        for idx, proj in enumerate(proj_list):
+            self.data.append({'text': proj})
+
+
+class SelectableLabel(RecycleView, Label):
+    def __init__(self, ):
+        pass
+
+
 
 
 class MainMenuApp(App):
