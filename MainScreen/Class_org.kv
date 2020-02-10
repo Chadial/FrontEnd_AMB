@@ -1,0 +1,82 @@
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+<Init>:
+    name: 'init'
+    BoxLayout:
+        orientation:'vertical'
+        padding:20
+        spacing:10
+        Button:
+            text:'uppest'
+        GridLayout:
+            spacing:10
+            cols:2
+
+            Button:
+                text:'upper left'
+            Button:
+                text:'upper right'
+            Button:
+                text:'bottom left'
+            Button:
+                text:'bottom right'
+        Button:
+            text:'bottomest: go to menu'
+            on_press: root.manager.current = 'menu'
+
+<Menu>:
+    name: 'menu'
+    BoxLayout:
+        orientation:'vertical'
+        padding:20
+        spacing:10
+        GridLayout:
+            spacing:10
+            cols:2
+
+            Button:
+                text:'upper left'
+            Button:
+                text:'upper right'
+            Button:
+                text:'bottom left'
+            Button:
+                text:'bottom right'
+        Button:
+            text:'bottomy'
+        Button:
+            text:'bottomest: go to init'
+            on_press: root.manager.current = 'init'
+
+<ScreenManagement>:
+    transition: NoTransition()
+    Init:
+    Menu:
+
+<ClassAllScreen>:
+    orientation:'vertical'
+    ScreenManagement:
+    BoxLayout:
+#        size_hint_y: None
+#        height: 60
+        spacing: 5
+        padding: 5,5,0,5
+
+        canvas:
+            Color:
+                rgba: .1,.1,.1,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Button:
+            text:'1'
+            size_hint_x: None
+            width: 60
+        Button:
+            text:'2'
+            size_hint_x: None
+            width: 60
+        ScreenManagement:
+        Button:
+            text:'3'
+            size_hint_x: None
+            width: 60

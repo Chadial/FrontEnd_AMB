@@ -1,0 +1,96 @@
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+<Header>:
+    name:               "head"
+    size_hint_y:    None
+    height:         35
+    Button:
+        id:         main_menu
+        size_hint_x:0.318
+        text:       "Menu"
+    Label:
+        id:         head_text
+        text:       "AMB Post-Processor"
+        halign:     "center"
+
+<Footer>:
+    name:           "foot"
+    size_hint_y:    None
+    height:         25
+    Label:
+        text:       "Copyright by AMIC Angewandte Micro-Messtechnik GmbH     "
+        font_size:  10
+        text_size:  self.size
+        halign:     "right"
+        valign:     "middle"
+
+<MainScreen>:
+    name:               'main_scrn'
+    BoxLayout:
+        padding:        (1, 0)
+        GridLayout:
+            size_hint_x:0.318
+            spacing:    1
+            cols:       1
+            Button:
+                text:   'Project A'
+                on_press: root.manager.current = 'proj_scrn'
+            Button:
+                text:   'Project B'
+                on_press: root.manager.current = 'proj_scrn'
+
+        BoxLayout:
+            orientation:"vertical"
+            Button:
+                text:   'Open Project'
+            Button:
+                text:   'Add Project'
+            Button:
+                text:   'Duplicate Project'
+            Button:
+                text:   'Delete Project'
+
+<OverviewScreen>:
+    name: 'over_scrn'
+    BoxLayout:
+        Button:
+            text:       'Overview'
+            on_press: root.manager.current = 'main_scrn'
+
+<SampleScreen>:
+    name: 'samp_scrn'
+    BoxLayout:
+        Button:
+            text:       'Sample'
+            on_press: root.manager.current = 'main_scrn'
+
+<ProjectScreen>:
+    name: 'proj_scrn'
+    BoxLayout:
+        padding:        (1, 0)
+        GridLayout:
+            size_hint_x:0.318
+            spacing:    1
+            cols:       1
+            Button:
+                text:   'Overview'
+                on_press: self.manager.current = 'over_scrn'
+            Button:
+                text:   'Sample 01'
+                on_press: self.manager.current = 'samp_scrn'
+        SubScreenManagement:
+
+<SubScreenManagement>:
+    transition: NoTransition()
+    OverviewScreen:
+    SampleScreen:
+
+<ScreenManagement>:
+    transition: NoTransition()
+    MainScreen:
+    ProjectScreen:
+
+<ClassAllScreen>:
+    orientation:'vertical'
+    Header:
+    ScreenManagement:
+    Footer:
