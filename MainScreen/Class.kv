@@ -73,13 +73,14 @@
             cols:       1
             Button:
                 text:   'Overview'
-                on_press: self.manager.current = 'over_scrn'
+                on_press: root.ids.SubManger.manager.current = 'over_scrn'
             Button:
                 text:   'Sample 01'
-                on_press: self.manager.current = 'samp_scrn'
+                on_press: SubManger.manager.current = 'samp_scrn'
         SubScreenManagement:
 
 <SubScreenManagement>:
+    id:         SubManger
     transition: NoTransition()
     OverviewScreen:
     SampleScreen:
