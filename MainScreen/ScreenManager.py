@@ -7,22 +7,20 @@ import kivy
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
+from kivy.properties import ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.clock import Clock
 
-#just solving my weak GPU issue
 from kivy import Config
 Config.set('graphics', 'multisamples', '0')
 
-kivy.require('1.9.1')
+
+class MainManager(ScreenManager):
+    main_mng = ObjectProperty(None)
 
 
-class ScreenManagement(ScreenManager):
-    pass
-
-
-class SubScreenManagement(ScreenManager):
-    pass
+class SubManager(ScreenManager):
+    sub_mng = ObjectProperty(None)
 
 
 class MainScreen(Screen):
@@ -50,10 +48,10 @@ class Footer(BoxLayout):
 
 
 class ClassAllScreen(BoxLayout):
-    pass
+    main_win = ObjectProperty(None)
 
 
-class ClassApp(App):
+class ClassAllScreenApp(App):
 
     def build(self):
         self.root = ClassAllScreen()
@@ -61,4 +59,4 @@ class ClassApp(App):
 
 
 if __name__ == '__main__':
-    ClassApp().run()
+    ClassAllScreenApp().run()

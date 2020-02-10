@@ -1,0 +1,111 @@
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+
+# ScreenManager
+<MainManager>:
+    main_mng:   "main_mng"
+    transition: NoTransition()
+    MainScreen:
+    ProjectScreen:
+        id:     proj_scrn
+
+<SubManager>:
+    sub_mng:    "sub_mng"
+    transition: NoTransition()
+    OverviewScreen:
+    SampleScreen:
+
+# Screens
+<MainScreen>:
+    name:               'main_scrn'
+    BoxLayout:
+        padding:        (1, 0)
+        GridLayout:
+            size_hint_x:0.318
+            spacing:    1
+            cols:       1
+            Button:
+                text:   'Project A'
+                on_press: root.manager.current = 'proj_scrn'
+            Button:
+                text:   'Project B'
+                on_press: root.manager.current = 'proj_scrn'
+
+        BoxLayout:
+            orientation:"vertical"
+            Button:
+                text:   'Open Project'
+            Button:
+                text:   'Add Project'
+            Button:
+                text:   'Duplicate Project'
+            Button:
+                text:   'Delete Project'
+
+<OverviewScreen>:
+    name: 'over_scrn'
+    BoxLayout:
+        Button:
+            text:       'Overview 2'
+            on_press: app.root.ids.main_mng.current = 'main_scrn'
+
+<SampleScreen>:
+    name: 'samp_scrn'
+    BoxLayout:
+        Button:
+            text:       'Sample'
+            on_press: app.root.ids.main_mng.current = 'main_scrn'
+
+<ProjectScreen>:
+    name: 'proj_scrn'
+    BoxLayout:
+        padding:        (1, 0)
+        GridLayout:
+            size_hint_x:0.318
+            spacing:    1
+            cols:       1
+            Button:
+                text:   'Overview'
+                #on_press: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
+                on_press: print(app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current)
+            Button:
+                text:   'Sample 01'
+                on_press: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'samp_scrn'
+        SubManager:
+            id: sub_mng
+
+# Window
+<Header>:
+    name:           "head"
+    size_hint_y:    None
+    height:         35
+    padding:        (1, 0)
+    Button:
+        id:         main_menu
+        size_hint_x:0.318
+        text:       "Menu"
+    Label:
+        id:         head_text
+        text:       "AMB Post-Processor"
+        halign:     "center"
+
+<Footer>:
+    name:           "foot"
+    size_hint_y:    None
+    height:         25
+    padding:        (1, 0)
+    Label:
+        text:       "Copyright by AMIC Angewandte Micro-Messtechnik GmbH     "
+        font_size:  10
+        text_size:  self.size
+        halign:     "right"
+        valign:     "middle"
+
+<ClassAllScreen>:
+    main_win:   "main_win"
+    orientation:'vertical'
+    id:         main_win
+
+    Header:
+    MainManager:
+        id:     main_mng
+    Footer:
