@@ -1,90 +1,170 @@
+#: import Window kivy.core.window.Window
+#: import AppMenu,AppMenuTextItem,ContextMenu,ContextMenuTextItem kivy.garden.contextmenu
 #: import NoTransition kivy.uix.screenmanager.NoTransition
+#: import CardTransition kivy.uix.screenmanager.CardTransition
+#:set left_pop CardTransition(mode="pop", direction="left", duration=".5")
+#:set right_push CardTransition(mode="push", direction="right", duration=".5")
+#:set up_push CardTransition(mode="push", direction="up", duration=".6")
+#:set down_pop CardTransition(mode="pop", direction="down", duration=".6")
 
-# ScreenManager
+# Layouts
+<ListButton>:
+    size_hint_y:                None
+#    height:                     Window.height * 0.5
+#    height:                     500
+    background_down:            ""
+    background_color:           (.2, .2, .2, .5) if self.state == "down" else (.5, .5, .5, 1)
+    background_disabled_down:   ""
+    background_disabled_normal: ""
+#    border:                     (1, 1, 1, 1)
+    border_radius:              0
+    size:                       self.texture_size[0], 50
+    strip_border:               True
+
+<ProjectGridLayout>:
+    cont_proj_list: "cont_proj_list"
+    size_hint_y:    None
+    height:         Window.height * 1.5
+    # TODO Adapt container height:      Adapt height to Project list height, Minimum: size_hint_y: 1 if Window.height (GridLayout.height) > ProjectList.height
+
+<SampleGridLayout>:
+    cont_samp_list: "cont_samp_list"
+    size_hint_y:    None
+    height:         Window.height * 1.5
+    # TODO Adapt container height:      Adapt height to Sample list height, Minimum: size_hint_y: 1 if Window.height (GridLayout.height) > ProjectList.height
+
+# kivy garden Contextmenu
+<MainMenu>:
+    main_menu:             "main_menu"
+    AppMenu:
+        id:         main_menu
+        size_hint_x:0.318
+        pos:        0, Window.size[1] - self.size[1]
+        cancel_handler
+        AppMenuTextItem:
+            text:   "Menu"
+            ContextMenu:
+                ContextMenuTextItem:
+                    text:   "Add Project"
+                ContextMenuTextItem:
+                    text:   "Exit"
+                    on_release: quit()
+
+# ScreenManagers
 <MainManager>:
-    main_mng:   "main_mng"
-    transition: NoTransition()
+    main_mng:       "main_mng"
+    transition:     down_pop
     MainScreen:
     ProjectScreen:
-        id:     proj_scrn
+        id:         proj_scrn
 
 <SubManager>:
-    sub_mng:    "sub_mng"
-    transition: NoTransition()
+    sub_mng:        "sub_mng"
+    transition:     left_pop
+#    on_pre_enter:   app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
+    # TODO Default SubScreen Screen:            Maybe on_pre_enter rule applicable, while leaving from Sample Screen to Project Screen or Main Screen
     OverviewScreen:
     SampleScreen:
 
 # Screens
 <MainScreen>:
-    name:               'main_scrn'
+    name:                       'main_scrn'
     BoxLayout:
-        padding:        (1, 0)
-        GridLayout:
-            size_hint_x:0.318
-            spacing:    1
-            cols:       1
-            Button:
-                text:   'Project A'
-                on_press: root.manager.current = 'proj_scrn'
-            Button:
-                text:   'Project B'
-                on_press: root.manager.current = 'proj_scrn'
-
+        padding:                (1, 0)
+        RecycleView:
+            size_hint_x:        0.318
+#            size:               self.size
+            do_scroll_x:        False
+            scroll_type:        ['bars', 'content']
+            ProjectGridLayout:
+                id:             cont_proj_list
+                spacing:        1
+                cols:           1
+                # TODO Dynamic Project Button List:     Generate methode to create Project Buttons from list
+                # TODO Calc height Project Button list:  Calculate the multiple height of the Button list
+                ListButton:
+                    text:       'Project A'
+                    on_release: root.manager.current = 'proj_scrn'
+                    on_release: root.manager.transition = down_pop
+                ListButton:
+                    text:       'Project B'
+                    on_release: root.manager.current = 'proj_scrn'
+                    on_release: root.manager.transition = down_pop
+                ListButton:
+                    text:       'Very very very  very very very very very very text'
+                    on_release: root.manager.current = 'proj_scrn'
+                    on_release: root.manager.transition = down_pop
+                ListButton:
+                    text:       'Project B'
+                    on_release: root.manager.current = 'proj_scrn'
+                    on_release: root.manager.transition = down_pop
         BoxLayout:
-            orientation:"vertical"
+            orientation:    "vertical"
             Button:
-                text:   'Open Project'
+                text:       'Open Project'
             Button:
-                text:   'Add Project'
+                text:       'Add Project'
             Button:
-                text:   'Duplicate Project'
+                text:       'Duplicate Project'
             Button:
-                text:   'Delete Project'
+                text:       'Delete Project'
 
 <OverviewScreen>:
-    name: 'over_scrn'
+    name:                   'over_scrn'
     BoxLayout:
         Button:
-            text:       'Overview 2'
-            on_press: app.root.ids.main_mng.current = 'main_scrn'
+            text:           'Overview 2'
+            on_release:     app.root.ids.main_mng.current = 'main_scrn'
+            on_release:     app.root.ids.main_mng.transition = up_push
 
 <SampleScreen>:
-    name: 'samp_scrn'
+    name:                   'samp_scrn'
     BoxLayout:
+        # TODO Next Screen Level:                       Include nested ScreenManager with Tabs and Functions (Converting, Merging, Plotting)
+        # TODO Dynamic Sample Button list:      Has to be changed later if Sample buttons are added dynamically from within Python
         Button:
-            text:       'Sample'
-            on_press: app.root.ids.main_mng.current = 'main_scrn'
+            text:           'Sample'
+            on_release:     app.root.ids.main_mng.current = 'main_scrn'
+            on_release:     app.root.ids.main_mng.transition = up_push
+            on_release:     app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
+            # TODO Default SubScreen Screen:        Change back to default Overview screen when leaving Sample Screen to Project Screen or Main Screen
 
 <ProjectScreen>:
     name: 'proj_scrn'
     BoxLayout:
-        padding:        (1, 0)
-        GridLayout:
-            size_hint_x:0.318
-            spacing:    1
-            cols:       1
-            Button:
-                text:   'Overview'
-                #on_press: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
-                on_press: print(app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current)
-            Button:
-                text:   'Sample 01'
-                on_press: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'samp_scrn'
+        padding:                (1, 0)
+        RecycleView:
+            size_hint_x:        0.318
+            size:               self.size
+            do_scroll_x:        False
+            scroll_type:        ['bars', 'content']
+            SampleGridLayout:
+                id:             cont_samp_list
+                spacing:        1
+                cols:           1
+                ListButton:
+                    text:       'Overview'
+                    on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
+                    on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.transition = right_push
+    #                on_release: print(app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current)
+                ListButton:
+                    text:       'Sample 01'
+                    on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'samp_scrn'
+                    on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.transition = left_pop
         SubManager:
-            id: sub_mng
+            id:                 sub_mng
 
-# Window
+# Windows
 <Header>:
-    name:           "head"
     size_hint_y:    None
     height:         35
     padding:        (1, 0)
-    Button:
-        id:         main_menu
+    Label:
+        # TODO Context Menu:                        Change to context menu instead button
         size_hint_x:0.318
-        text:       "Menu"
     Label:
         id:         head_text
+#        size_hint_x:0.682
         text:       "AMB Post-Processor"
         halign:     "center"
 
@@ -101,11 +181,15 @@
         valign:     "middle"
 
 <ClassAllScreen>:
-    main_win:   "main_win"
-    orientation:'vertical'
-    id:         main_win
+    main_win:       "main_win"
+    orientation:    'vertical'
+    id:             main_win
 
     Header:
     MainManager:
-        id:     main_mng
+        id:         main_mng
     Footer:
+    MainMenu:
+#        size_hint_x: 0.318
+        size_hint_y: None
+        height:      0

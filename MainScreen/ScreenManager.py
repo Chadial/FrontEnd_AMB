@@ -6,13 +6,24 @@ https://www.python-forum.de/viewtopic.php?f=4&t=46427
 import kivy
 from kivy.app import App
 from kivy.lang import Builder
+from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.properties import ObjectProperty
-from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.clock import Clock
+
+import kivy.garden.contextmenu
+# https://stackoverflow.com/questions/55133377/pycharm-error-kivy-garden-knob-import-successfully-but-not-active-on-script
+# https://kivy.org/doc/stable/api-kivy.garden.html
 
 from kivy import Config
 Config.set('graphics', 'multisamples', '0')
+
+
+class ListButton(Button):
+    list_btn = ObjectProperty(None)
 
 
 class MainManager(ScreenManager):
@@ -40,11 +51,23 @@ class SampleScreen(Screen):
 
 
 class Header(BoxLayout):
-    pass
+    head = ObjectProperty(None)
 
 
 class Footer(BoxLayout):
     pass
+
+
+class ProjectGridLayout(GridLayout):
+    cont_proj_list = ObjectProperty(None)
+
+
+class SampleGridLayout(GridLayout):
+    cont_samp_list = ObjectProperty(None)
+
+
+class MainMenu(FloatLayout):
+    mainmenu = ObjectProperty(None)
 
 
 class ClassAllScreen(BoxLayout):
