@@ -73,44 +73,59 @@
     BoxLayout:
         padding:                (1, 0)
         RecycleView:
+            canvas.before:
+                Color:
+                    rgba:               (.5, .5, .5, 1)
+                Rectangle:
+                    pos:                self.pos
+                    size:               self.size
             size_hint_x:        0.318*1.5
             do_scroll_x:        False
             scroll_type:        ['bars', 'content']
             ProjectGridLayout:
                 id:             cont_proj_list
-                spacing:        1
+                spacing:        0
                 cols:           1
-                # TODO Dynamic Project Button List:      Generate methode to create Project Buttons from list
+                # TODO Dynamic Project Button List:      Generate method to create Project Buttons from list
                 # TODO Calc height Project Button list:  Calculate the multiple height of the Button list
                 ListButton:
                     text:       'Project A'
                     on_release: root.manager.current = 'proj_scrn'
-                    on_release: root.manager.transition = down_out
+                    on_release: root.manager.transition = up_in
                 ListButton:
                     text:       'Project B'
                     on_release: root.manager.current = 'proj_scrn'
-                    on_release: root.manager.transition = down_out
+                    on_release: root.manager.transition = up_in
                 ListButton:
                     text:       'Project C'
                     on_release: root.manager.current = 'proj_scrn'
-                    on_release: root.manager.transition = down_out
+                    on_release: root.manager.transition = up_in
                 ListButton:
                     text:       'Project D'
                     on_release: root.manager.current = 'proj_scrn'
-                    on_release: root.manager.transition = down_out
+                    on_release: root.manager.transition = up_in
         BoxLayout:
-#            size_hint_x:        0.682*3
+            canvas.before:
+                Color:
+                    rgba:               (.2, .2, .2, 1)
+                Rectangle:
+                    pos:                self.pos
+                    size:               self.size
             Label:
             BoxLayout:
                 orientation:    "vertical"
                 Label:
                 ListButton:
+                    background_color:           (.2, .2, .2, 1) if self.state == "down" else (.2, .2, .2, 0)
                     text:       'Open Project'
                 ListButton:
+                    background_color:           (.2, .2, .2, 1) if self.state == "down" else (.2, .2, .2, 0)
                     text:       'Add Project'
                 ListButton:
+                    background_color:           (.2, .2, .2, 1) if self.state == "down" else (.2, .2, .2, 0)
                     text:       'Duplicate Project'
                 ListButton:
+                    background_color:           (.2, .2, .2, 1) if self.state == "down" else (.2, .2, .2, 0)
                     text:       'Delete Project'
                 Label:
             Label:
@@ -121,7 +136,7 @@
         Button:
             text:           'Overview 2'
             on_release:     app.root.ids.main_mng.current = 'main_scrn'
-            on_release:     app.root.ids.main_mng.transition = up_in
+            on_release:     app.root.ids.main_mng.transition = down_out
 
 <SampleScreen>:
     name:                   'samp_scrn'
@@ -131,7 +146,7 @@
         Button:
             text:           'Sample'
             on_release:     app.root.ids.main_mng.current = 'main_scrn'
-            on_release:     app.root.ids.main_mng.transition = up_in
+            on_release:     app.root.ids.main_mng.transition = down_out
             on_release:     app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
             # TODO Default SubScreen Screen:    Change back to default Overview screen when leaving Sample Screen to Project Screen or Main Screen
 
@@ -140,7 +155,7 @@
     BoxLayout:
         padding:                (1, 0)
         RecycleView:
-            size_hint_x:        0.318
+            size_hint_x:        0.318*1.5
             size:               self.size
             do_scroll_x:        False
             scroll_type:        ['bars', 'content']
