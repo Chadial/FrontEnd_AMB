@@ -2,10 +2,10 @@
 #: import AppMenu,AppMenuTextItem,ContextMenu,ContextMenuTextItem kivy.garden.contextmenu
 #: import NoTransition kivy.uix.screenmanager.NoTransition
 #: import CardTransition kivy.uix.screenmanager.CardTransition
-#:set left_pop CardTransition(mode="pop", direction="left", duration=".5")
-#:set right_push CardTransition(mode="push", direction="right", duration=".5")
-#:set up_push CardTransition(mode="push", direction="up", duration=".6")
-#:set down_pop CardTransition(mode="pop", direction="down", duration=".6")
+#:set left_out CardTransition(mode="pop", direction="left", duration=".5")
+#:set right_in CardTransition(mode="push", direction="right", duration=".5")
+#:set up_in CardTransition(mode="push", direction="up", duration=".6")
+#:set down_out CardTransition(mode="pop", direction="down", duration=".6")
 
 # Layouts
 <ListButton>:
@@ -39,8 +39,9 @@
     AppMenu:
         id:         main_menu
         size_hint_x:0.318
-        pos:        0, Window.size[1] - self.size[1]
-        cancel_handler
+#        size:       self.size
+        pos:        2.5, -2.5 + Window.size[1] - self.size[1]
+        cancel_handler_widget:  root
         AppMenuTextItem:
             text:   "Menu"
             ContextMenu:
@@ -53,14 +54,14 @@
 # ScreenManagers
 <MainManager>:
     main_mng:       "main_mng"
-    transition:     down_pop
+    transition:     down_out
     MainScreen:
     ProjectScreen:
         id:         proj_scrn
 
 <SubManager>:
     sub_mng:        "sub_mng"
-    transition:     left_pop
+    transition:     left_out
 #    on_pre_enter:   app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
     # TODO Default SubScreen Screen:            Maybe on_pre_enter rule applicable, while leaving from Sample Screen to Project Screen or Main Screen
     OverviewScreen:
@@ -72,42 +73,47 @@
     BoxLayout:
         padding:                (1, 0)
         RecycleView:
-            size_hint_x:        0.318
-#            size:               self.size
+            size_hint_x:        0.318*1.5
             do_scroll_x:        False
             scroll_type:        ['bars', 'content']
             ProjectGridLayout:
                 id:             cont_proj_list
                 spacing:        1
                 cols:           1
-                # TODO Dynamic Project Button List:     Generate methode to create Project Buttons from list
+                # TODO Dynamic Project Button List:      Generate methode to create Project Buttons from list
                 # TODO Calc height Project Button list:  Calculate the multiple height of the Button list
                 ListButton:
                     text:       'Project A'
                     on_release: root.manager.current = 'proj_scrn'
-                    on_release: root.manager.transition = down_pop
+                    on_release: root.manager.transition = down_out
                 ListButton:
                     text:       'Project B'
                     on_release: root.manager.current = 'proj_scrn'
-                    on_release: root.manager.transition = down_pop
+                    on_release: root.manager.transition = down_out
                 ListButton:
-                    text:       'Very very very  very very very very very very text'
+                    text:       'Project C'
                     on_release: root.manager.current = 'proj_scrn'
-                    on_release: root.manager.transition = down_pop
+                    on_release: root.manager.transition = down_out
                 ListButton:
-                    text:       'Project B'
+                    text:       'Project D'
                     on_release: root.manager.current = 'proj_scrn'
-                    on_release: root.manager.transition = down_pop
+                    on_release: root.manager.transition = down_out
         BoxLayout:
-            orientation:    "vertical"
-            Button:
-                text:       'Open Project'
-            Button:
-                text:       'Add Project'
-            Button:
-                text:       'Duplicate Project'
-            Button:
-                text:       'Delete Project'
+#            size_hint_x:        0.682*3
+            Label:
+            BoxLayout:
+                orientation:    "vertical"
+                Label:
+                ListButton:
+                    text:       'Open Project'
+                ListButton:
+                    text:       'Add Project'
+                ListButton:
+                    text:       'Duplicate Project'
+                ListButton:
+                    text:       'Delete Project'
+                Label:
+            Label:
 
 <OverviewScreen>:
     name:                   'over_scrn'
@@ -115,19 +121,19 @@
         Button:
             text:           'Overview 2'
             on_release:     app.root.ids.main_mng.current = 'main_scrn'
-            on_release:     app.root.ids.main_mng.transition = up_push
+            on_release:     app.root.ids.main_mng.transition = up_in
 
 <SampleScreen>:
     name:                   'samp_scrn'
     BoxLayout:
-        # TODO Next Screen Level:                       Include nested ScreenManager with Tabs and Functions (Converting, Merging, Plotting)
+        # TODO Next Screen Level:               Include nested ScreenManager with Tabs and Functions (Converting, Merging, Plotting)
         # TODO Dynamic Sample Button list:      Has to be changed later if Sample buttons are added dynamically from within Python
         Button:
             text:           'Sample'
             on_release:     app.root.ids.main_mng.current = 'main_scrn'
-            on_release:     app.root.ids.main_mng.transition = up_push
+            on_release:     app.root.ids.main_mng.transition = up_in
             on_release:     app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
-            # TODO Default SubScreen Screen:        Change back to default Overview screen when leaving Sample Screen to Project Screen or Main Screen
+            # TODO Default SubScreen Screen:    Change back to default Overview screen when leaving Sample Screen to Project Screen or Main Screen
 
 <ProjectScreen>:
     name: 'proj_scrn'
@@ -145,12 +151,12 @@
                 ListButton:
                     text:       'Overview'
                     on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
-                    on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.transition = right_push
+                    on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.transition = right_in
     #                on_release: print(app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current)
                 ListButton:
                     text:       'Sample 01'
                     on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'samp_scrn'
-                    on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.transition = left_pop
+                    on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.transition = left_out
         SubManager:
             id:                 sub_mng
 
