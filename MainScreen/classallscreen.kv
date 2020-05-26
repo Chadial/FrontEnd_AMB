@@ -2,54 +2,91 @@
 #: import AppMenu,AppMenuTextItem,ContextMenu,ContextMenuTextItem kivy.garden.contextmenu
 #: import NoTransition kivy.uix.screenmanager.NoTransition
 #: import CardTransition kivy.uix.screenmanager.CardTransition
-#:set left_out CardTransition(mode="pop", direction="left", duration=".5")
-#:set right_in CardTransition(mode="push", direction="right", duration=".5")
-#:set up_in CardTransition(mode="push", direction="up", duration=".6")
-#:set down_out CardTransition(mode="pop", direction="down", duration=".6")
+#:set left_out CardTransition(mode="pop", direction="left", duration=".25")
+#:set right_in CardTransition(mode="push", direction="right", duration=".25")
+#:set up_in CardTransition(mode="push", direction="up", duration=".25")
+#:set down_out CardTransition(mode="pop", direction="down", duration=".25")
+
+# Colors
+#:set transp (0, 0, 0, 0)  #
+#:set blck_0 (.120, .120, .120, .1)  #
+#:set blck_1 (.120, .120, .120, 1.)  #
+#:set grey_0 (.169, .169, .169, 1.)  #
+#:set grey_1 (.196, .196, .196, 1.)  #
+#:set grey_2 (.192, .200, .208, 1.)  #
+#:set grey_3 (.235, .247, .255, 1.)  #
+#:set grey_4 (.306, .322, .329, 1.)  #
+#:set grey_5 (.333, .333, .333, 1.)  #
+#:set grey_6 (.349, .357, .365, 1.)  #
+
+#:set cl_tex (.686, .694, .702, 1)  # text_color
+
+#:set enbl_color (.3, .3, .3, 1.)
+#:set disa_color (.5, .5, .5, 1.)
 
 # Layouts
+<Button>:
+    size_hint_y:            None
+    font_size:              18
+    color:                  cl_tex
+
 <ListButton>:
     size_hint_y:                None
-#    height:                     Window.height * 0.5
-#    height:                     500
     background_down:            ""
-    background_color:           (.2, .2, .2, .5) if self.state == "down" else (.5, .5, .5, 1)
+    background_color:           grey_6 if self.state == "down" else grey_6
     background_disabled_down:   ""
     background_disabled_normal: ""
-#    border:                     (1, 1, 1, 1)
+    color:                      cl_tex
     border_radius:              0
     size:                       self.texture_size[0], 50
     strip_border:               True
 
 <ProjectGridLayout>:
-    cont_proj_list: "cont_proj_list"
-    size_hint_y:    None
-    height:         Window.height * 1.5
+    cont_proj_list:             "cont_proj_list"
+    size_hint_y:                None
+    height:                     Window.height * 1.5
     # TODO Adapt container height:      Adapt height to Project list height, Minimum: size_hint_y: 1 if Window.height (GridLayout.height) > ProjectList.height
 
 <SampleGridLayout>:
-    cont_samp_list: "cont_samp_list"
-    size_hint_y:    None
-    height:         Window.height * 1.5
+    cont_samp_list:             "cont_samp_list"
+    size_hint_y:                None
+    height:                     Window.height * 1.5
     # TODO Adapt container height:      Adapt height to Sample list height, Minimum: size_hint_y: 1 if Window.height (GridLayout.height) > ProjectList.height
 
 # kivy garden Contextmenu
 <MainMenu>:
-    main_menu:             "main_menu"
+    main_menu:                          "main_menu"
     AppMenu:
-        id:         main_menu
-        size_hint_x:0.318
-#        size:       self.size
-        pos:        2.5, -2.5 + Window.size[1] - self.size[1]
-        cancel_handler_widget:  root
+        id:                             main_menu
+        canvas.before:
+            Color:
+                rgba:                   grey_1
+            Rectangle:
+                pos:                    self.pos
+                size:                   self.size
+        size_hint_x:                    0.318
+        size:                           self.size
+        pos:                            2.5, -2.5 + Window.size[1] - self.size[1]
+        cancel_handler_widget:          root
         AppMenuTextItem:
-            text:   "Menu"
+            text:                       "Menu"
+            background_down:            ""
+            background_color:           blck_1 if self.state == "down" else blck_0
+            background_disabled_down:   ""
+            background_disabled_normal: ""
             ContextMenu:
                 ContextMenuTextItem:
-                    text:   "Add Project"
+                    text:               "Main Screen"
+                    on_release:         app.root.ids.main_mng.current = 'main_scrn'
+                    on_release:         app.root.ids.main_mng.transition = down_out
+                    on_release:         root.close_menu()
                 ContextMenuTextItem:
-                    text:   "Exit"
-                    on_release: quit()
+                    text:               "Add Project"
+                    on_release:         root.close_menu()
+                ContextMenuTextItem:
+                    text:               "Exit"
+                    on_release:         root.close_menu()
+                    on_release:         quit()
 
 # ScreenManagers
 <MainManager>:
@@ -75,10 +112,10 @@
         RecycleView:
             canvas.before:
                 Color:
-                    rgba:               (.5, .5, .5, 1)
+                    rgba:       grey_1
                 Rectangle:
-                    pos:                self.pos
-                    size:               self.size
+                    pos:        self.pos
+                    size:       self.size
             size_hint_x:        0.318*1.5
             do_scroll_x:        False
             scroll_type:        ['bars', 'content']
@@ -92,6 +129,7 @@
                     text:       'Project A'
                     on_release: root.manager.current = 'proj_scrn'
                     on_release: root.manager.transition = up_in
+#                    on_release: print(app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current)
                 ListButton:
                     text:       'Project B'
                     on_release: root.manager.current = 'proj_scrn'
@@ -107,54 +145,92 @@
         BoxLayout:
             canvas.before:
                 Color:
-                    rgba:               (.2, .2, .2, 1)
+                    rgba:               blck_1
                 Rectangle:
                     pos:                self.pos
                     size:               self.size
             Label:
+                size_hint_x:    1.3
             BoxLayout:
                 orientation:    "vertical"
                 Label:
                 ListButton:
-                    background_color:           (.2, .2, .2, 1) if self.state == "down" else (.2, .2, .2, 0)
                     text:       'Open Project'
+                    text_size:  self.size
+                    halign:     "left"
+                    valign:     "middle"
+                    background_color:           blck_1 if self.state == "down" else transp
+                    on_release:
                 ListButton:
-                    background_color:           (.2, .2, .2, 1) if self.state == "down" else (.2, .2, .2, 0)
                     text:       'Add Project'
+                    text_size:  self.size
+                    halign:     "left"
+                    valign:     "middle"
+                    background_color:           blck_0 if self.state == "down" else transp
                 ListButton:
-                    background_color:           (.2, .2, .2, 1) if self.state == "down" else (.2, .2, .2, 0)
                     text:       'Duplicate Project'
+                    text_size:  self.size
+                    halign:     "left"
+                    valign:     "middle"
+                    background_color:           blck_0 if self.state == "down" else transp
                 ListButton:
-                    background_color:           (.2, .2, .2, 1) if self.state == "down" else (.2, .2, .2, 0)
                     text:       'Delete Project'
+                    text_size:  self.size
+                    halign:     "left"
+                    valign:     "middle"
+                    background_color:           blck_0 if self.state == "down" else transp
                 Label:
             Label:
 
 <OverviewScreen>:
-    name:                   'over_scrn'
+    name:                       'over_scrn'
     BoxLayout:
+        canvas.before:
+            Color:
+                rgba:           blck_1
+            Rectangle:
+                pos:            self.pos
+                size:           self.size
+        orientation:            "vertical"
         Button:
-            text:           'Overview 2'
-            on_release:     app.root.ids.main_mng.current = 'main_scrn'
-            on_release:     app.root.ids.main_mng.transition = down_out
+            size_hint_y:        .1
+            text:               'Project Overview'
+            on_release:         app.root.ids.main_mng.current = 'main_scrn'
+            on_release:         app.root.ids.main_mng.transition = down_out
+        Label:
 
 <SampleScreen>:
-    name:                   'samp_scrn'
+    name:                       'samp_scrn'
     BoxLayout:
+        canvas.before:
+            Color:
+                rgba:           blck_1
+            Rectangle:
+                pos:            self.pos
+                size:           self.size
+        orientation:            "vertical"
         # TODO Next Screen Level:               Include nested ScreenManager with Tabs and Functions (Converting, Merging, Plotting)
         # TODO Dynamic Sample Button list:      Has to be changed later if Sample buttons are added dynamically from within Python
         Button:
-            text:           'Sample'
-            on_release:     app.root.ids.main_mng.current = 'main_scrn'
-            on_release:     app.root.ids.main_mng.transition = down_out
-            on_release:     app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
+            size_hint_y:        .11
+            text:               'Sample'
+            on_release:         app.root.ids.main_mng.current = 'main_scrn'
+            on_release:         app.root.ids.main_mng.transition = down_out
+            on_release:         app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
             # TODO Default SubScreen Screen:    Change back to default Overview screen when leaving Sample Screen to Project Screen or Main Screen
+        Label:
 
 <ProjectScreen>:
-    name: 'proj_scrn'
+    name:                       'proj_scrn'
     BoxLayout:
         padding:                (1, 0)
         RecycleView:
+            canvas.before:
+                Color:
+                    rgba:       grey_1
+                Rectangle:
+                    pos:        self.pos
+                    size:       self.size
             size_hint_x:        0.318*1.5
             size:               self.size
             do_scroll_x:        False
@@ -167,7 +243,6 @@
                     text:       'Overview'
                     on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
                     on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.transition = right_in
-    #                on_release: print(app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current)
                 ListButton:
                     text:       'Sample 01'
                     on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'samp_scrn'
@@ -177,40 +252,57 @@
 
 # Windows
 <Header>:
-    size_hint_y:    None
-    height:         35
-    padding:        (1, 0)
-    Label:
-        # TODO Context Menu:                        Change to context menu instead button
-        size_hint_x:0.318
-    Label:
-        id:         head_text
-#        size_hint_x:0.682
-        text:       "AMB Post-Processor"
-        halign:     "center"
+    name:                       "head"
+    size_hint_y:                None
+    height:                     35
+    padding:                    (1, 0)
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba:           grey_0
+            Rectangle:
+                pos:            self.pos
+                size:           self.size
+        Label:
+        Label:
+            id:                 head_text
+            size_hint_x:        .682*3
+            text:               "    AMB Post-Processor"
+            font_size:          18
+            text_size:          self.size
+            halign:             "left"
+            valign:             "middle"
+            color:              cl_tex
 
 <Footer>:
-    name:           "foot"
-    size_hint_y:    None
-    height:         25
-    padding:        (1, 0)
+    name:                       "foot"
+    size_hint_y:                None
+    height:                     25
+    padding:                    (1, 0)
+    canvas.before:
+        Color:
+            rgba:               grey_0
+        Rectangle:
+            pos:                self.pos
+            size:               self.size
     Label:
-        text:       "Copyright by AMIC Angewandte Micro-Messtechnik GmbH     "
-        font_size:  10
-        text_size:  self.size
-        halign:     "right"
-        valign:     "middle"
+        text:                   "Copyright by AMIC Angewandte Micro-Messtechnik GmbH     "
+        font_size:              10
+        text_size:              self.size
+        halign:                 "right"
+        valign:                 "middle"
+        color:                  cl_tex
 
 <ClassAllScreen>:
-    main_win:       "main_win"
-    orientation:    'vertical'
-    id:             main_win
+    main_win:                   "main_win"
+    orientation:                'vertical'
+    id:                         main_win
 
     Header:
     MainManager:
-        id:         main_mng
+        id:                     main_mng
     Footer:
     MainMenu:
-#        size_hint_x: 0.318
-        size_hint_y: None
-        height:      0
+#        size_hint_x:            0.318
+        size_hint_y:            None
+        height:                 0

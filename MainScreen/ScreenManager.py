@@ -3,6 +3,13 @@ https://stackoverflow.com/questions/41337143/switch-screenmanager-inside-layout
 Ideas:
 https://www.python-forum.de/viewtopic.php?f=4&t=46427
 """
+from kivy import Config
+win_px = 960
+Config.set('graphics', 'width', str(win_px))
+Config.set('graphics', 'height', str(int(win_px*0.618)))
+Config.set('graphics', 'minimum_width', str(int(win_px*0.6)))
+Config.set('graphics', 'minimum_height', str(int(win_px*0.618*.5)))
+
 import kivy
 from kivy.app import App
 from kivy.lang import Builder
@@ -67,7 +74,10 @@ class SampleGridLayout(GridLayout):
 
 
 class MainMenu(FloatLayout):
-    mainmenu = ObjectProperty(None)
+    main_menu = ObjectProperty(None)
+
+    def close_menu(self):
+        self.ids['main_menu'].close_all()
 
 
 class ClassAllScreen(BoxLayout):
