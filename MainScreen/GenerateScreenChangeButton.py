@@ -51,7 +51,7 @@ class GarageNameBoxLayout(BoxLayout):
             button_share.bind(on_press=lambda *args: setattr(sm, 'current', "main"))
             self.box_share2.add_widget(button_share)
 
-    def changer(self,*args):
+    def changer(self, *args):
         ScreenManager()
         #app = App.get_running_app()
         screenmanager.current = 'MainScreen'

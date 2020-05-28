@@ -19,7 +19,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.properties import ObjectProperty
-from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.screenmanager import ScreenManager, Screen, CardTransition
 from kivy.clock import Clock, mainthread
 
 import kivy.garden.contextmenu
@@ -31,6 +31,7 @@ from kivy import Config
 Config.set('graphics', 'multisamples', '0')
 
 projects = ['Proj_1', 'proj-2', '3-jorp', '4_jorp']
+up_in = CardTransition(mode="push", direction="up", duration=".25")
 
 
 class ListButton(Button):
@@ -50,23 +51,35 @@ class ProjButton(ListButton):
 
 
 class MainScreen(Screen):
-    cont_proj_list = ObjectProperty(None)
-    # main_mng = ObjectProperty()
+    # cont_proj_list = ObjectProperty(None)
+    # main_scrn = ObjectProperty(None)
 
-    def on_release(self, *args):
+    # def __init__(self, **kwargs):
+    #     super(MainScreen, self).__init__(**kwargs)
+    #     # self.orientation = "vertical"
+    #     # Clock.schedule_interval(self.on_enter, 5)
+
+    @mainthread
+    def on_enter(self, *args):
         """
+        Generate list of Buttons for each Project in "projects" list
+        Each Button triggers the Lvl 1 ScreenManager to change from "main_scrn" to "proj_scrn"
         https://stackoverflow.com/questions/45934429/bind-a-function-to-multiple-dynamically-created-buttons-in-kivy
         https://stackoverflow.com/questions/46393737/calling-a-method-from-on-release-event-of-a-button-in-a-pop-up
         https://stackoverflow.com/questions/49265887/use-on-press-event-to-change-screen-without-kv-language-for-dynamically-created
         """
-        super(ProjButton, self).on_release(*args)
-        self.main_mng.current = "proj_scrn"
+        self.main_scrn.clear_widgets()      # Clear all widgets in main_scrn
+        app = App.get_running_app()         # name of running app like #homepath
+        sm = app.root.ids.main_mng          # path from #homepath to #main_mng (ScreenManager Lvl 1)
+        # print(sm)
 
-    @mainthread
-    def on_enter(self):
         for idx, name in enumerate(projects):
-            button = ProjButton(text=name)
-            print(name)
+            # Generate button from "projects" list
+            id_ = "proj_btn_"+str(idx)
+            button = ProjButton(text=name, id=id_)
+            # print(name, id_)
+            button.bind(on_release=lambda *args: setattr(sm, 'current', "proj_scrn"))
+            button.bind(on_release=lambda *args: setattr(sm, 'transition', up_in))
             self.ids.cont_proj_list.add_widget(button)
 
 

@@ -76,14 +76,25 @@
             background_disabled_normal: ""
             ContextMenu:
                 ContextMenuTextItem:
+                    id:                 mm_main_scrn_btn
                     text:               "Main Screen"
                     on_release:         app.root.ids.main_mng.current = 'main_scrn'
                     on_release:         app.root.ids.main_mng.transition = down_out
                     on_release:         root.close_menu()
                 ContextMenuTextItem:
-                    text:               "Add Project"
+                    id:                 mm_proj_scrn_btn
+                    text:               "Project Screen"
+                    on_release:         app.root.ids.main_mng.current = 'proj_scrn'
+                    on_release:         app.root.ids.main_mng.transition = down_out
                     on_release:         root.close_menu()
                 ContextMenuTextItem:
+                    id:                 mm_add_prj_btn
+                    text:               "Add Project"
+                    on_release:         print(list((app.get_running_app()).root.ids.main_mng.ids))
+                    on_release:         print(list((app.get_running_app()).root.ids.main_mng.ids.main_scrn.ids))
+                    on_release:         root.close_menu()
+                ContextMenuTextItem:
+                    id:                 mm_exit_btn
                     text:               "Exit"
                     on_release:         root.close_menu()
                     on_release:         quit()
@@ -93,6 +104,7 @@
     main_mng:       "main_mng"
     transition:     down_out
     MainScreen:
+        id:         main_scrn
     ProjectScreen:
         id:         proj_scrn
 
@@ -106,6 +118,7 @@
 
 # Screens
 <MainScreen>:
+    main_scrn:         cont_proj_list
     name:                       'main_scrn'
     BoxLayout:
         padding:                (1, 0)
@@ -155,6 +168,7 @@
                 orientation:    "vertical"
                 Label:
                 ListButton:
+                    id:         ope_prj_btn
                     text:       'Open Project'
                     text_size:  self.size
                     halign:     "left"
@@ -162,18 +176,21 @@
                     background_color:           blck_1 if self.state == "down" else transp
                     on_release:
                 ListButton:
+                    id:         add_prj_btn
                     text:       'Add Project'
                     text_size:  self.size
                     halign:     "left"
                     valign:     "middle"
                     background_color:           blck_0 if self.state == "down" else transp
                 ListButton:
+                    id:         dup_prj_btn
                     text:       'Duplicate Project'
                     text_size:  self.size
                     halign:     "left"
                     valign:     "middle"
                     background_color:           blck_0 if self.state == "down" else transp
                 ListButton:
+                    id:         del_prj_btn
                     text:       'Delete Project'
                     text_size:  self.size
                     halign:     "left"
