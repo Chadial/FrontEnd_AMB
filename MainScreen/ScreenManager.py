@@ -14,19 +14,23 @@ import kivy
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.button import Button
+from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.properties import ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.clock import Clock
+from kivy.clock import Clock, mainthread
 
 import kivy.garden.contextmenu
 # https://stackoverflow.com/questions/55133377/pycharm-error-kivy-garden-knob-import-successfully-but-not-active-on-script
 # https://kivy.org/doc/stable/api-kivy.garden.html
 
 from kivy import Config
+
 Config.set('graphics', 'multisamples', '0')
+
+projects = ['Proj_1', 'proj-2', '3-jorp', '4_jorp']
 
 
 class ListButton(Button):
@@ -34,15 +38,36 @@ class ListButton(Button):
 
 
 class MainManager(ScreenManager):
-    main_mng = ObjectProperty(None)
+    main_mng = ObjectProperty()
 
 
 class SubManager(ScreenManager):
     sub_mng = ObjectProperty(None)
 
 
+class ProjButton(ListButton):
+    main_mng = MainManager.main_mng
+
+
 class MainScreen(Screen):
-    pass
+    cont_proj_list = ObjectProperty(None)
+    # main_mng = ObjectProperty()
+
+    def on_release(self, *args):
+        """
+        https://stackoverflow.com/questions/45934429/bind-a-function-to-multiple-dynamically-created-buttons-in-kivy
+        https://stackoverflow.com/questions/46393737/calling-a-method-from-on-release-event-of-a-button-in-a-pop-up
+        https://stackoverflow.com/questions/49265887/use-on-press-event-to-change-screen-without-kv-language-for-dynamically-created
+        """
+        super(ProjButton, self).on_release(*args)
+        self.main_mng.current = "proj_scrn"
+
+    @mainthread
+    def on_enter(self):
+        for idx, name in enumerate(projects):
+            button = ProjButton(text=name)
+            print(name)
+            self.ids.cont_proj_list.add_widget(button)
 
 
 class ProjectScreen(Screen):
@@ -66,7 +91,8 @@ class Footer(BoxLayout):
 
 
 class ProjectGridLayout(GridLayout):
-    cont_proj_list = ObjectProperty(None)
+    pass
+    # cont_proj_list = ObjectProperty(None)
 
 
 class SampleGridLayout(GridLayout):
