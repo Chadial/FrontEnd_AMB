@@ -21,6 +21,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.properties import ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, CardTransition
 from kivy.clock import Clock, mainthread
+from kivy.uix.popup import Popup
 
 import kivy.garden.contextmenu
 # https://stackoverflow.com/questions/55133377/pycharm-error-kivy-garden-knob-import-successfully-but-not-active-on-script
@@ -31,6 +32,7 @@ from kivy import Config
 Config.set('graphics', 'multisamples', '0')
 
 projects = ['Proj_1', 'proj-2', '3-jorp', '4_jorp']
+# projects = []
 up_in = CardTransition(mode="push", direction="up", duration=".25")
 
 
@@ -51,19 +53,16 @@ class ProjButton(ListButton):
 
 
 class MainScreen(Screen):
-    # cont_proj_list = ObjectProperty(None)
-    # main_scrn = ObjectProperty(None)
 
-    # def __init__(self, **kwargs):
-    #     super(MainScreen, self).__init__(**kwargs)
-    #     # self.orientation = "vertical"
-    #     # Clock.schedule_interval(self.on_enter, 5)
+    def __init__(self, **kwargs):
+        super(MainScreen, self).__init__(**kwargs)
 
     @mainthread
     def on_enter(self, *args):
         """
         Generate list of Buttons for each Project in "projects" list
         Each Button triggers the Lvl 1 ScreenManager to change from "main_scrn" to "proj_scrn"
+        https://stackoverflow.com/questions/19491286/kivy-changing-screens-in-screen-manager-with-an-on-press-event
         https://stackoverflow.com/questions/45934429/bind-a-function-to-multiple-dynamically-created-buttons-in-kivy
         https://stackoverflow.com/questions/46393737/calling-a-method-from-on-release-event-of-a-button-in-a-pop-up
         https://stackoverflow.com/questions/49265887/use-on-press-event-to-change-screen-without-kv-language-for-dynamically-created
@@ -74,13 +73,16 @@ class MainScreen(Screen):
         # print(sm)
 
         for idx, name in enumerate(projects):
-            # Generate button from "projects" list
-            id_ = "proj_btn_"+str(idx)
-            button = ProjButton(text=name, id=id_)
-            # print(name, id_)
+            # id_ = "proj_btn_"+str(idx)
+            # button = ProjButton(text=name, id=id_)
+            button = ProjButton(text=name)
             button.bind(on_release=lambda *args: setattr(sm, 'current', "proj_scrn"))
             button.bind(on_release=lambda *args: setattr(sm, 'transition', up_in))
             self.ids.cont_proj_list.add_widget(button)
+
+
+    def show_add_pop(self):
+        add_pop()
 
 
 class ProjectScreen(Screen):
@@ -92,6 +94,10 @@ class OverviewScreen(Screen):
 
 
 class SampleScreen(Screen):
+    pass
+
+
+class add_popup(FloatLayout):
     pass
 
 
@@ -124,10 +130,20 @@ class ClassAllScreen(BoxLayout):
 
 
 class ClassAllScreenApp(App):
-
     def build(self):
         self.root = ClassAllScreen()
         return self.root
+
+
+def add_pop():
+    show = add_popup()
+
+    addWindow = Popup(title="Add Project",
+                      content=show,
+                      size_hint=(None, None),
+                      size=(200, 250),
+                      )
+    addWindow.open()
 
 
 if __name__ == '__main__':
