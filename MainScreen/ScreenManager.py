@@ -22,6 +22,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, CardTransition
 from kivy.clock import Clock, mainthread
 from kivy.uix.popup import Popup
+from kivy.uix.spinner import Spinner
 
 import kivy.garden.contextmenu
 # https://stackoverflow.com/questions/55133377/pycharm-error-kivy-garden-knob-import-successfully-but-not-active-on-script
@@ -35,9 +36,13 @@ projects = ['Proj_1', 'proj-2', '3-jorp', '4_jorp']
 # projects = []
 up_in = CardTransition(mode="push", direction="up", duration=".25")
 
+""" Layouts """
+class ProjectGridLayout(GridLayout):
+    pass
 
-class ListButton(Button):
-    list_btn = ObjectProperty(None)
+
+class SampleGridLayout(GridLayout):
+    pass
 
 
 class MainManager(ScreenManager):
@@ -45,13 +50,43 @@ class MainManager(ScreenManager):
 
 
 class SubManager(ScreenManager):
-    sub_mng = ObjectProperty(None)
+    sub_mng = ObjectProperty()
+
+
+class ListButton(Button):
+    pass
 
 
 class ProjButton(ListButton):
     main_mng = MainManager.main_mng
 
 
+""" DropDowns """
+class ProjListSpinner(Spinner):
+    """
+    https://stackoverflow.com/questions/39593544/changing-kivy-spinner-values-dynamically
+    """
+    pass
+
+
+""" Popups """
+class ope_prj_pop(FloatLayout):
+    pass
+
+
+class add_prj_pop(FloatLayout):
+    pass
+
+
+class dup_prj_pop(FloatLayout):
+    pass
+
+
+class del_prj_pop(FloatLayout):
+    pass
+
+
+""" Screens """
 class MainScreen(Screen):
 
     def __init__(self, **kwargs):
@@ -80,9 +115,8 @@ class MainScreen(Screen):
             button.bind(on_release=lambda *args: setattr(sm, 'transition', up_in))
             self.ids.cont_proj_list.add_widget(button)
 
-
-    def show_add_pop(self):
-        add_pop()
+    def show_pop(self, window):
+        pop_pop(window)
 
 
 class ProjectScreen(Screen):
@@ -97,25 +131,13 @@ class SampleScreen(Screen):
     pass
 
 
-class add_popup(FloatLayout):
-    pass
-
-
+""" App Elements """
 class Header(BoxLayout):
     head = ObjectProperty(None)
 
 
 class Footer(BoxLayout):
     pass
-
-
-class ProjectGridLayout(GridLayout):
-    pass
-    # cont_proj_list = ObjectProperty(None)
-
-
-class SampleGridLayout(GridLayout):
-    cont_samp_list = ObjectProperty(None)
 
 
 class MainMenu(FloatLayout):
@@ -135,15 +157,39 @@ class ClassAllScreenApp(App):
         return self.root
 
 
-def add_pop():
-    show = add_popup()
+def pop_pop(window):
+    if window == 0:
+        title_ = "Open Project"
+        pop_ = ope_prj_pop()
+        size_ = (300, 500)
+        size_hint_ = (.5, .5)
+    elif window == 1:
+        title_ = "Add Project"
+        pop_ = add_prj_pop()
+        size_ = (300, 500)
+        size_hint_ = (.5, .5)
+    elif window == 2:
+        title_ = "Duplicate Project"
+        pop_ = dup_prj_pop()
+        size_ = (300, 500)
+        size_hint_ = (.5, .5)
+    elif window == 3:
+        title_ = "Delete Project"
+        pop_ = del_prj_pop()
+        size_ = (300, 500)
+        size_hint_ = (.5, .5)
 
-    addWindow = Popup(title="Add Project",
-                      content=show,
-                      size_hint=(None, None),
-                      size=(200, 250),
-                      )
-    addWindow.open()
+    win_dow = Popup(title=title_,
+                    content=pop_,
+                    # size_hint=(None, None),
+                    size_hint=size_hint_,
+                    auto_dismiss=False,
+                    # size=size_,
+                    )
+    """ https://stackoverflow.com/questions/46948218/kivy-button-in-popup-not-calling-function """
+    pop_.ids["okay"].bind(on_release=win_dow.dismiss)
+    pop_.ids["cancel"].bind(on_release=win_dow.dismiss)
+    win_dow.open()
 
 
 if __name__ == '__main__':

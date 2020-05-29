@@ -152,7 +152,7 @@
                     halign:     "left"
                     valign:     "middle"
                     background_color:           blck_1 if self.state == "down" else transp
-                    on_release:
+                    on_release: root.show_pop(window=0)
                 ListButton:
                     id:         add_prj_btn
                     text:       'Add Project'
@@ -160,7 +160,7 @@
                     halign:     "left"
                     valign:     "middle"
                     background_color:           blck_0 if self.state == "down" else transp
-                    on_release: root.show_add_pop()
+                    on_release: root.show_pop(window=1)
                 ListButton:
                     id:         dup_prj_btn
                     text:       'Duplicate Project'
@@ -168,6 +168,7 @@
                     halign:     "left"
                     valign:     "middle"
                     background_color:           blck_0 if self.state == "down" else transp
+                    on_release: root.show_pop(window=2)
                 ListButton:
                     id:         del_prj_btn
                     text:       'Delete Project'
@@ -175,6 +176,7 @@
                     halign:     "left"
                     valign:     "middle"
                     background_color:           blck_0 if self.state == "down" else transp
+                    on_release: root.show_pop(window=3)
                 Label:
             Label:
 
@@ -246,16 +248,96 @@
         SubManager:
             id:                 sub_mng
 
+# Spinners
+<ProjListSpinner>:
+    size_hint_x:        .98
+    size:               self.texture_size[0], 45
+    pos_hint:           {'center': (.5, .5)}
+    text:               ' '
+#    values:             'Home', 'Work', 'Other', 'Custom'
+
 # Popups
-<add_Popup>:
+<ope_prj_pop>:
     Label:
-        text:           "Label Text"
+        text:           "   Select Project"
+        size_hint_y:    0.2
+        pos_hint:       {"x": 0, "top": 1}
+        text_size:      self.size
+        halign:         "left"
+        valign:         "middle"
+    ProjListSpinner:
+        id:             proj_list_spin
+    BoxLayout:
+        pos_hint:       {"x": 0, "top": 1}
+        Label:
+            size_hint_x:    .02
+        ListButton:
+            id:             okay
+            text:           "Open"
+            size:           self.texture_size[0], 40
+        Label:
+            size_hint_x:    .05
+        ListButton:
+            id:             cancel
+            text:           "Cancel"
+            size:           self.texture_size[0], 40
+        Label:
+            size_hint_x:    .02
+
+<add_prj_pop>:
+    Label:
+        text:           "Enter Name of new Project"
         size_hint:      (.6, .2)
-        pos_hint:       {"x": .2, "top": 1.}
-    Button:
-        text:           "Button Text"
-        size_hint:      (.8, .2)
-        pos_hint:       {"x": .1, "top": .1}
+        pos_hint:       {"x": -.2, "top": 1.}
+    BoxLayout:
+        pos_hint:       {"x": 0, "top": 1}
+        ListButton:
+            id:             okay
+            text:           "Add"
+            size_hint:      (.8, .12)
+        Label:
+            size_hint:      (.1, .1)
+        ListButton:
+            id:             cancel
+            text:           "Cancel"
+            size_hint:      (.8, .12)
+
+<dup_prj_pop>:
+    Label:
+        text:           "Select Project to copy"
+        size_hint:      (.6, .2)
+        pos_hint:       {"x": -.2, "top": 1.}
+    BoxLayout:
+        pos_hint:       {"x": 0, "top": 1}
+        ListButton:
+            id:             okay
+            text:           "Duplicate"
+            size_hint:      (.8, .12)
+        Label:
+            size_hint:      (.1, .1)
+        ListButton:
+            id:             cancel
+            text:           "Cancel"
+            size_hint:      (.8, .12)
+
+<del_prj_pop>:
+    Label:
+        text:           "Select Project for deleting"
+        size_hint:      (.6, .2)
+        pos_hint:       {"x": -.2, "top": 1.}
+    BoxLayout:
+        pos_hint:       {"x": 0, "top": 1.01}
+        ListButton:
+            id:             okay
+            text:           "Delete"
+            size_hint:      (.8, .12)
+        Label:
+            size_hint:      (.1, .1)
+        ListButton:
+            id:             cancel
+            text:           "Cancel"
+            size_hint:      (.8, .12)
+
 
 # Windows
 <Header>:
