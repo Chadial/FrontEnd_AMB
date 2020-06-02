@@ -78,12 +78,14 @@
                     text:               "Main Screen"
                     on_release:         app.root.ids.main_mng.current = 'main_scrn'
                     on_release:         app.root.ids.main_mng.transition = up_in
+                    on_release:         app.root.ids.head.ids.head_text.text = " AMB Post-Processor"
                     on_release:         root.close_menu()
                 ContextMenuTextItem:
                     id:                 mm_proj_scrn_btn
                     text:               "Project Screen"
                     on_release:         app.root.ids.main_mng.current = 'proj_scrn'
                     on_release:         app.root.ids.main_mng.transition = down_out
+                    on_release:         app.root.ids.head.ids.head_text.text = " Project Screen"
                     on_release:         root.close_menu()
                 ContextMenuTextItem:
                     id:                 mm_add_prj_btn
@@ -409,7 +411,7 @@
         Label:
             id:                 head_text
             size_hint_x:        .682*3
-            text:               "    AMB Post-Processor"
+            text:               " AMB Post-Processor"
             font_size:          18
             text_size:          self.size
             halign:             "left"
@@ -441,6 +443,7 @@
     id:                         main_win
 
     Header:
+        id:                     head
     MainManager:
         id:                     main_mng
     Footer:
