@@ -18,7 +18,7 @@ from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.floatlayout import FloatLayout
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, ListProperty, StringProperty
 from kivy.uix.screenmanager import ScreenManager, Screen, CardTransition
 from kivy.clock import Clock, mainthread
 from kivy.uix.popup import Popup
@@ -32,7 +32,7 @@ from kivy import Config
 
 Config.set('graphics', 'multisamples', '0')
 
-projects = ['Proj_1', 'proj-2', '3-jorp', '4_jorp']
+prj_list = ['Proj_1', 'proj-2', '3-jorp', '4_jorp']
 # projects = []
 up_in = CardTransition(mode="push", direction="up", duration=".25")
 
@@ -71,19 +71,44 @@ class ProjListSpinner(Spinner):
 
 """ Popups """
 class ope_prj_pop(FloatLayout):
-    pass
+    prj_list = ListProperty()
+
+    def __init__(self, **kwargs):
+        super(ope_prj_pop, self).__init__(**kwargs)
+        self.prj_list = prj_list
 
 
 class add_prj_pop(FloatLayout):
-    pass
+    prj_list = ListProperty()
+
+    def __init__(self, **kwargs):
+        super(add_prj_pop, self).__init__(**kwargs)
+        self.prj_list = prj_list
+
+    def _add_prj(self, value):
+        # TODO Check if project name exists or field is empty
+        self.prj_list.append(value)
+        # print(self.prj_list)
 
 
 class dup_prj_pop(FloatLayout):
-    pass
+    prj_list = ListProperty()
+
+    def __init__(self, **kwargs):
+        super(dup_prj_pop, self).__init__(**kwargs)
+        self.prj_list = prj_list
 
 
 class del_prj_pop(FloatLayout):
-    pass
+    prj_list = ListProperty()
+
+    def __init__(self, **kwargs):
+        super(del_prj_pop, self).__init__(**kwargs)
+        self.prj_list = prj_list
+
+    def _del_prj(self, value):  # TODO Change to spinner selection and remove from prj_list
+        self.prj_list.append(value)
+        # print(self.prj_list)
 
 
 """ Screens """
@@ -107,7 +132,7 @@ class MainScreen(Screen):
         sm = app.root.ids.main_mng          # path from #homepath to #main_mng (ScreenManager Lvl 1)
         # print(sm)
 
-        for idx, name in enumerate(projects):
+        for idx, name in enumerate(prj_list):
             # id_ = "proj_btn_"+str(idx)
             # button = ProjButton(text=name, id=id_)
             button = ProjButton(text=name)
@@ -152,6 +177,7 @@ class ClassAllScreen(BoxLayout):
 
 
 class ClassAllScreenApp(App):
+
     def build(self):
         self.root = ClassAllScreen()
         return self.root

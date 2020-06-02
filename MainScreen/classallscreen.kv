@@ -250,16 +250,93 @@
 
 # Spinners
 <ProjListSpinner>:
-    size_hint_x:        .98
-    size:               self.texture_size[0], 45
-    pos_hint:           {'center': (.5, .5)}
-    text:               ' '
-#    values:             'Home', 'Work', 'Other', 'Custom'
+    size_hint_x:                .98
+    size:                       self.texture_size[0], 45
+    pos_hint:                   {'center': (.5, .5)}
+    text:                       ' '
+    background_down:            ""
+    background_color:           grey_6 if self.state == "down" else grey_6
+    background_disabled_down:   ""
+    background_disabled_normal: ""
+    color:                      cl_tex
 
 # Popups
 <ope_prj_pop>:
     Label:
-        text:           "   Select Project"
+        text:           " Select Project"
+        size_hint_y:    0.2
+        pos_hint:       {"x": 0, "top": 1}
+        text_size:      self.size
+        halign:         "left"
+        valign:         "middle"
+    ProjListSpinner:
+        id:             proj_list_spin
+        values:         root.prj_list
+    BoxLayout:
+        pos_hint:       {"x": 0, "top": 1}
+        Label:
+            size_hint_x:    .02
+        ListButton:
+            id:             okay
+            text:           "Open"
+            size:           self.texture_size[0], 40
+            font_size:      16
+        Label:
+            size_hint_x:    .05
+        ListButton:
+            id:             cancel
+            text:           "Cancel"
+            size:           self.texture_size[0], 40
+            font_size:      16
+        Label:
+            size_hint_x:    .02
+
+<add_prj_pop>:
+    id:                 added_proj
+    Label:
+        text:           " Enter Name of new Project"
+        size_hint_y:    0.2
+        pos_hint:       {"x": 0, "top": 1}
+        text_size:      self.size
+        halign:         "left"
+        valign:         "middle"
+    TextInput:
+        id:             add_proj
+        text:           ""
+        hint_text:      "Project name"
+        font_size:      18
+        size_hint:      (.98, None)
+        height:         36
+        pos_hint:       {'center': (.5, .5)}
+        focus:          True
+        multiline:      False
+        cursor_blink:   True
+        cursor_color:   (0,0,0,1)
+    BoxLayout:
+        pos_hint:       {"x": 0, "top": 1}
+        Label:
+            size_hint_x:    .02
+        ListButton:
+            id:             okay
+            text:           "Add"
+            size:           self.texture_size[0], 40
+            font_size:      16
+            on_release:
+                root._add_prj(add_proj.text)
+        Label:
+            size_hint_x:    .05
+        ListButton:
+            id:             cancel
+            text:           "Cancel"
+            size:           self.texture_size[0], 40
+            font_size:      16
+            on_release:     added_proj.value = ""
+        Label:
+            size_hint_x:    .02
+
+<dup_prj_pop>:
+    Label:
+        text:           " Select Project to copy"
         size_hint_y:    0.2
         pos_hint:       {"x": 0, "top": 1}
         text_size:      self.size
@@ -273,71 +350,47 @@
             size_hint_x:    .02
         ListButton:
             id:             okay
-            text:           "Open"
+            text:           "Duplicate"
             size:           self.texture_size[0], 40
+            font_size:      16
         Label:
             size_hint_x:    .05
         ListButton:
             id:             cancel
             text:           "Cancel"
             size:           self.texture_size[0], 40
+            font_size:      16
         Label:
             size_hint_x:    .02
 
-<add_prj_pop>:
-    Label:
-        text:           "Enter Name of new Project"
-        size_hint:      (.6, .2)
-        pos_hint:       {"x": -.2, "top": 1.}
-    BoxLayout:
-        pos_hint:       {"x": 0, "top": 1}
-        ListButton:
-            id:             okay
-            text:           "Add"
-            size_hint:      (.8, .12)
-        Label:
-            size_hint:      (.1, .1)
-        ListButton:
-            id:             cancel
-            text:           "Cancel"
-            size_hint:      (.8, .12)
-
-<dup_prj_pop>:
-    Label:
-        text:           "Select Project to copy"
-        size_hint:      (.6, .2)
-        pos_hint:       {"x": -.2, "top": 1.}
-    BoxLayout:
-        pos_hint:       {"x": 0, "top": 1}
-        ListButton:
-            id:             okay
-            text:           "Duplicate"
-            size_hint:      (.8, .12)
-        Label:
-            size_hint:      (.1, .1)
-        ListButton:
-            id:             cancel
-            text:           "Cancel"
-            size_hint:      (.8, .12)
-
 <del_prj_pop>:
     Label:
-        text:           "Select Project for deleting"
-        size_hint:      (.6, .2)
-        pos_hint:       {"x": -.2, "top": 1.}
+        text:           " Select Project for deleting"
+        size_hint_y:    0.2
+        pos_hint:       {"x": 0, "top": 1}
+        text_size:      self.size
+        halign:         "left"
+        valign:         "middle"
+    ProjListSpinner:
+        id:             proj_list_spin
     BoxLayout:
-        pos_hint:       {"x": 0, "top": 1.01}
+        pos_hint:       {"x": 0, "top": 1}
+        Label:
+            size_hint_x:    .02
         ListButton:
             id:             okay
             text:           "Delete"
-            size_hint:      (.8, .12)
+            size:           self.texture_size[0], 40
+            font_size:      16
         Label:
-            size_hint:      (.1, .1)
+            size_hint_x:    .05
         ListButton:
             id:             cancel
             text:           "Cancel"
-            size_hint:      (.8, .12)
-
+            size:           self.texture_size[0], 40
+            font_size:      16
+        Label:
+            size_hint_x:    .02
 
 # Windows
 <Header>:
