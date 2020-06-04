@@ -296,7 +296,7 @@
 <add_prj_pop>:
     id:                 added_proj
     Label:
-        text:           " Enter Name of new Project"
+        text:           " Enter Name of new Project:\n (Must start with a letter and consists of 5..16 characters)"
         size_hint_y:    0.2
         pos_hint:       {"x": 0, "top": 1}
         text_size:      self.size
@@ -324,8 +324,8 @@
             size:           self.texture_size[0], 40
             font_size:      16
             on_release:
-                root._add_prj(add_proj.text)
-                print(app.root.ids.main_mng.ids.main_scrn.on_enter())
+                root.add_prj_list(add_proj.text)
+#                print(app.root.ids.main_mng.ids.main_scrn.on_enter())
                 app.root.ids.main_mng.ids.main_scrn.on_enter()
         Label:
             size_hint_x:    .05
@@ -348,6 +348,7 @@
         valign:         "middle"
     ProjListSpinner:
         id:             proj_list_spin
+        values:         root.prj_list
     BoxLayout:
         pos_hint:       {"x": 0, "top": 1}
         Label:
@@ -357,6 +358,9 @@
             text:           "Duplicate"
             size:           self.texture_size[0], 40
             font_size:      16
+            on_release:
+                root.dup_prj_list(proj_list_spin.text)
+                app.root.ids.main_mng.ids.main_scrn.on_enter()
         Label:
             size_hint_x:    .05
         ListButton:
@@ -377,6 +381,7 @@
         valign:         "middle"
     ProjListSpinner:
         id:             proj_list_spin
+        values:         root.prj_list
     BoxLayout:
         pos_hint:       {"x": 0, "top": 1}
         Label:
@@ -386,6 +391,9 @@
             text:           "Delete"
             size:           self.texture_size[0], 40
             font_size:      16
+            on_release:
+                root.del_prj_list(proj_list_spin.text)
+                app.root.ids.main_mng.ids.main_scrn.on_enter()
         Label:
             size_hint_x:    .05
         ListButton:

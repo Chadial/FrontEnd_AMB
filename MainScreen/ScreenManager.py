@@ -98,10 +98,13 @@ class add_prj_pop(FloatLayout):
         super(add_prj_pop, self).__init__(**kwargs)
         self.prj_list = prj_list
 
-    def _add_prj(self, value):
+    def add_prj_list(self, val):
         # TODO Check if project name exists or field is empty
-        self.prj_list.append(value)
-        # print(self.prj_list)
+        if not check_str(val):
+            print("False Name given")
+        elif check_str(val):
+            prj_list.append(val)
+        return prj_list
 
 
 class dup_prj_pop(FloatLayout):
@@ -111,6 +114,10 @@ class dup_prj_pop(FloatLayout):
         super(dup_prj_pop, self).__init__(**kwargs)
         self.prj_list = prj_list
 
+    def dup_prj_list(self, val):  # TODO Change to spinner selection and remove from prj_list
+        prj_list.remove(val)
+        print(prj_list)
+        return prj_list
 
 class del_prj_pop(FloatLayout):
     prj_list = ListProperty()
@@ -119,9 +126,10 @@ class del_prj_pop(FloatLayout):
         super(del_prj_pop, self).__init__(**kwargs)
         self.prj_list = prj_list
 
-    def _del_prj(self, value):  # TODO Change to spinner selection and remove from prj_list
-        self.prj_list.append(value)
-        # print(self.prj_list)
+    def del_prj_list(self, val):  # TODO Change to spinner selection and remove from prj_list
+        prj_list.remove(val)
+        print(prj_list)
+        return prj_list
 
 
 """ Screens """
@@ -147,8 +155,6 @@ class MainScreen(Screen):
         # print(sm)
 
         for idx, name in enumerate(prj_list):
-            # id_ = "proj_btn_"+str(idx)
-            # button = ProjButton(text=name, id=id_)
             button = ProjButton(text=name)
             button.bind(on_release=lambda *args: setattr(sm, 'current', "proj_scrn"))
             button.bind(on_release=lambda *args: setattr(sm, 'transition', up_in))
@@ -197,6 +203,30 @@ class ClassAllScreenApp(App):
         self.root = ClassAllScreen()
         return self.root
 
+def check_str(val):
+    if val in prj_list:
+        print("{} already exist".format(val))
+        return False
+    elif not val:
+        print("No Name given.")
+        return False
+    elif val.isspace():
+        print("No Name given.")
+        return False
+    elif val.isdigit():
+        print("Name without letters given.")
+        return False
+    elif len(val) < 5:
+        print("Name has less than 5 characters.")
+        return False
+    elif len(val) > 16:
+        print("Name has more than 16 characters.")
+        return False
+    elif val[0].isdigit() or val[0].isspace():
+        print("First character must be a letter.")
+        return False
+    else:
+        return True
 
 def pop_pop(window):
     if window == 0:
