@@ -38,7 +38,20 @@ up_in = CardTransition(mode="push", direction="up", duration=".25")
 
 """ Layouts """
 class ProjectGridLayout(GridLayout):
-    pass
+
+    def show_labels(self, var):
+        self.clear_widgets()
+
+        self.main_scrn.clear_widgets()  # Clear all widgets in main_scrn
+        app = App.get_running_app()  # name of running app like #homepath
+        sm = app.root.ids.main_mng  # path from #homepath to #main_mng (ScreenManager Lvl 1)
+
+        for idx, name in enumerate(var):
+            button = ProjButton(text=name)
+            button.bind(on_release=lambda *args: setattr(sm, 'current', "proj_scrn"))
+            button.bind(on_release=lambda *args: setattr(sm, 'transition', up_in))
+            self.ids.cont_proj_list.add_widget(button)
+
 
 
 class SampleGridLayout(GridLayout):
@@ -114,8 +127,8 @@ class del_prj_pop(FloatLayout):
 """ Screens """
 class MainScreen(Screen):
 
-    def __init__(self, **kwargs):
-        super(MainScreen, self).__init__(**kwargs)
+    def __init__(self, **kargs):
+        super(MainScreen, self).__init__(**kargs)
 
     @mainthread
     def on_enter(self, *args):
@@ -126,6 +139,7 @@ class MainScreen(Screen):
         https://stackoverflow.com/questions/45934429/bind-a-function-to-multiple-dynamically-created-buttons-in-kivy
         https://stackoverflow.com/questions/46393737/calling-a-method-from-on-release-event-of-a-button-in-a-pop-up
         https://stackoverflow.com/questions/49265887/use-on-press-event-to-change-screen-without-kv-language-for-dynamically-created
+        https://stackoverflow.com/questions/35044166/how-do-i-add-buttons-that-are-dynamically-created-in-pure-python-to-a-kivy-layou
         """
         self.main_scrn.clear_widgets()      # Clear all widgets in main_scrn
         app = App.get_running_app()         # name of running app like #homepath
@@ -141,6 +155,7 @@ class MainScreen(Screen):
             self.ids.cont_proj_list.add_widget(button)
 
     def show_pop(self, window):
+        """ Comment """
         pop_pop(window)
 
 

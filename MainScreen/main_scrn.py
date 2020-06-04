@@ -21,10 +21,8 @@ from kivy.uix.recyclegridlayout import RecycleGridLayout
 from kivy.uix.behaviors import FocusBehavior
 
 from kivy.properties import NumericProperty, StringProperty, BooleanProperty
-
-
-
 from kivy.core.window import Window, WindowBase
+
 
 Builder.load_file('main_scrn.kv')
 
@@ -64,8 +62,6 @@ class ProjectList(RecycleView):
 class SelectableLabel(RecycleView, Label):
     def __init__(self, ):
         pass
-
-
 
 
 class MainMenuApp(App):
