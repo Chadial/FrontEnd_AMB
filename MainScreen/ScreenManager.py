@@ -32,9 +32,13 @@ from kivy import Config
 
 Config.set('graphics', 'multisamples', '0')
 
-prj_list = ['Proj_1', 'proj-2', '3-jorp', '4_jorp']
-# projects = []
+# Constants
 up_in = CardTransition(mode="push", direction="up", duration=".25")
+
+# Variables
+prj_list = ['Proj_1', 'proj-2', '3-jorp', '4_jorp']
+prj_list = []
+
 
 """ Layouts """
 class ProjectGridLayout(GridLayout):
@@ -99,7 +103,6 @@ class add_prj_pop(FloatLayout):
         self.prj_list = prj_list
 
     def add_prj_list(self, val):
-        # TODO Check if project name exists or field is empty
         if not check_str(val):
             print("False Name given")
         elif check_str(val):
@@ -114,7 +117,7 @@ class dup_prj_pop(FloatLayout):
         super(dup_prj_pop, self).__init__(**kwargs)
         self.prj_list = prj_list
 
-    def dup_prj_list(self, val):  # TODO Change to spinner selection and remove from prj_list
+    def dup_prj_list(self, val):
         prj_list.remove(val)
         print(prj_list)
         return prj_list
@@ -126,17 +129,29 @@ class del_prj_pop(FloatLayout):
         super(del_prj_pop, self).__init__(**kwargs)
         self.prj_list = prj_list
 
-    def del_prj_list(self, val):  # TODO Change to spinner selection and remove from prj_list
+    def del_prj_list(self, val):
+        pop_pop(4)
+        return con_del_pop.delete_prj(val)
+        # return con_del_pop.delete_prj(val)
+        # return c
+
+class con_del_pop(FloatLayout):
+    """ Popup to confirm the deletion """
+    prj_list = ListProperty()
+    value = StringProperty()
+
+    def delete_prj(val):
+        # TODO
         prj_list.remove(val)
-        print(prj_list)
+        # print(prj_list)
         return prj_list
 
 
 """ Screens """
 class MainScreen(Screen):
 
-    def __init__(self, **kargs):
-        super(MainScreen, self).__init__(**kargs)
+    def __init__(self, **kwargs):
+        super(MainScreen, self).__init__(**kwargs)
 
     @mainthread
     def on_enter(self, *args):
@@ -149,16 +164,24 @@ class MainScreen(Screen):
         https://stackoverflow.com/questions/49265887/use-on-press-event-to-change-screen-without-kv-language-for-dynamically-created
         https://stackoverflow.com/questions/35044166/how-do-i-add-buttons-that-are-dynamically-created-in-pure-python-to-a-kivy-layou
         """
-        self.main_scrn.clear_widgets()      # Clear all widgets in main_scrn
-        app = App.get_running_app()         # name of running app like #homepath
-        sm = app.root.ids.main_mng          # path from #homepath to #main_mng (ScreenManager Lvl 1)
-        # print(sm)
+        if not prj_list:
+            self.main_scrn.clear_widgets()      # Clear all widgets in main_scrn
+            self.ids.ope_prj_btn.disabled = True
+            self.ids.dup_prj_btn.disabled = True
+            self.ids.del_prj_btn.disabled = True
+        else:
+            self.main_scrn.clear_widgets()      # Clear all widgets in main_scrn
+            self.ids.ope_prj_btn.disabled = False
+            self.ids.dup_prj_btn.disabled = False
+            self.ids.del_prj_btn.disabled = False
+            app = App.get_running_app()         # name of running app like #homepath
+            sm = app.root.ids.main_mng          # path from #homepath to #main_mng (ScreenManager Lvl 1)
 
-        for idx, name in enumerate(prj_list):
-            button = ProjButton(text=name)
-            button.bind(on_release=lambda *args: setattr(sm, 'current', "proj_scrn"))
-            button.bind(on_release=lambda *args: setattr(sm, 'transition', up_in))
-            self.ids.cont_proj_list.add_widget(button)
+            for idx, name in enumerate(prj_list):
+                button = ProjButton(text=name)
+                button.bind(on_release=lambda *args: setattr(sm, 'current', "proj_scrn"))
+                button.bind(on_release=lambda *args: setattr(sm, 'transition', up_in))
+                self.ids.cont_proj_list.add_widget(button)
 
     def show_pop(self, window):
         """ Comment """
@@ -247,6 +270,11 @@ def pop_pop(window):
     elif window == 3:
         title_ = "Delete Project"
         pop_ = del_prj_pop()
+        size_ = (300, 500)
+        size_hint_ = (.5, .5)
+    elif window == 4:
+        title_ = "Confirm deletion"
+        pop_ = con_del_pop()
         size_ = (300, 500)
         size_hint_ = (.5, .5)
 

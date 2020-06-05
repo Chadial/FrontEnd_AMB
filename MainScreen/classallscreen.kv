@@ -76,23 +76,26 @@
                 ContextMenuTextItem:
                     id:                 mm_main_scrn_btn
                     text:               "Main Screen"
-                    on_release:         app.root.ids.main_mng.current = 'main_scrn'
-                    on_release:         app.root.ids.main_mng.transition = up_in
-                    on_release:         app.root.ids.head.ids.head_text.text = " AMB Post-Processor"
-                    on_release:         root.close_menu()
+                    on_release:
+                        app.root.ids.main_mng.current = 'main_scrn'
+                        app.root.ids.main_mng.transition = up_in
+                        app.root.ids.head.ids.head_text.text = " AMB Post-Processor"
+                        root.close_menu()
                 ContextMenuTextItem:
                     id:                 mm_proj_scrn_btn
                     text:               "Project Screen"
-                    on_release:         app.root.ids.main_mng.current = 'proj_scrn'
-                    on_release:         app.root.ids.main_mng.transition = down_out
-                    on_release:         app.root.ids.head.ids.head_text.text = " Project Screen"
-                    on_release:         root.close_menu()
+                    on_release:
+                        app.root.ids.main_mng.current = 'proj_scrn'
+                        app.root.ids.main_mng.transition = down_out
+                        app.root.ids.head.ids.head_text.text = " Project Screen"
+                        root.close_menu()
                 ContextMenuTextItem:
                     id:                 mm_add_prj_btn
                     text:               "Add Project"
-                    on_release:         print(list((app.get_running_app()).root.ids.main_mng.ids))
-                    on_release:         print(list((app.get_running_app()).root.ids.main_mng.ids.main_scrn.ids))
-                    on_release:         root.close_menu()
+                    on_release:
+                        print(list((app.get_running_app()).root.ids.main_mng.ids))
+                        print(list((app.get_running_app()).root.ids.main_mng.ids.main_scrn.ids))
+                        root.close_menu()
                 ContextMenuTextItem:
                     id:                 mm_exit_btn
                     text:               "Exit"
@@ -148,37 +151,45 @@
                 orientation:    "vertical"
                 Label:
                 ListButton:
-                    id:         ope_prj_btn
-                    text:       'Open Project'
-                    text_size:  self.size
-                    halign:     "left"
-                    valign:     "middle"
-                    background_color:           blck_1 if self.state == "down" else transp
-                    on_release: root.show_pop(window=0)
-                ListButton:
                     id:         add_prj_btn
                     text:       'Add Project'
                     text_size:  self.size
                     halign:     "left"
                     valign:     "middle"
-                    background_color:           blck_0 if self.state == "down" else transp
-                    on_release: root.show_pop(window=1)
+                    background_color:
+                        blck_1 if self.state == "down" else transp
+                    on_release:
+                        root.show_pop(window=1)
+                ListButton:
+                    id:         ope_prj_btn
+                    text:       'Open Project'
+                    text_size:  self.size
+                    halign:     "left"
+                    valign:     "middle"
+                    background_color:
+                        blck_0 if self.state == "down" else transp
+                    on_release:
+                        root.show_pop(window=0)
                 ListButton:
                     id:         dup_prj_btn
                     text:       'Duplicate Project'
                     text_size:  self.size
                     halign:     "left"
                     valign:     "middle"
-                    background_color:           blck_0 if self.state == "down" else transp
-                    on_release: root.show_pop(window=2)
+                    background_color:
+                        blck_0 if self.state == "down" else transp
+                    on_release:
+                        root.show_pop(window=2)
                 ListButton:
                     id:         del_prj_btn
                     text:       'Delete Project'
                     text_size:  self.size
                     halign:     "left"
                     valign:     "middle"
-                    background_color:           blck_0 if self.state == "down" else transp
-                    on_release: root.show_pop(window=3)
+                    background_color:
+                        blck_0 if self.state == "down" else transp
+                    on_release:
+                        root.show_pop(window=3)
                 Label:
             Label:
 
@@ -195,8 +206,9 @@
         Button:
             size_hint_y:        .1
             text:               'Project Overview'
-            on_release:         app.root.ids.main_mng.current = 'main_scrn'
-            on_release:         app.root.ids.main_mng.transition = down_out
+            on_release:
+                app.root.ids.main_mng.current = 'main_scrn'
+                app.root.ids.main_mng.transition = down_out
         Label:
 
 <SampleScreen>:
@@ -214,9 +226,10 @@
         Button:
             size_hint_y:        .11
             text:               'Sample'
-            on_release:         app.root.ids.main_mng.current = 'main_scrn'
-            on_release:         app.root.ids.main_mng.transition = down_out
-            on_release:         app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
+            on_release:
+                app.root.ids.main_mng.current = 'main_scrn'
+                app.root.ids.main_mng.transition = down_out
+                app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
             # TODO Default SubScreen Screen:    Change back to default Overview screen when leaving Sample Screen to Project Screen or Main Screen
         Label:
 
@@ -241,12 +254,14 @@
                 cols:           1
                 ListButton:
                     text:       'Overview'
-                    on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
-                    on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.transition = right_in
+                    on_release:
+                        app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'over_scrn'
+                        app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.transition = right_in
                 ListButton:
                     text:       'Sample 01'
-                    on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'samp_scrn'
-                    on_release: app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.transition = left_out
+                    on_release:
+                        app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.current = 'samp_scrn'
+                        app.root.ids.main_mng.ids.proj_scrn.ids.sub_mng.transition = left_out
         SubManager:
             id:                 sub_mng
 
@@ -283,6 +298,9 @@
             text:           "Open"
             size:           self.texture_size[0], 40
             font_size:      16
+            on_release:
+                app.root.ids.main_mng.current = 'proj_scrn'
+                app.root.ids.main_mng.transition = down_out
         Label:
             size_hint_x:    .05
         ListButton:
@@ -393,6 +411,36 @@
             font_size:      16
             on_release:
                 root.del_prj_list(proj_list_spin.text)
+                app.root.ids.main_mng.ids.main_scrn.on_enter()
+        Label:
+            size_hint_x:    .05
+        ListButton:
+            id:             cancel
+            text:           "Cancel"
+            size:           self.texture_size[0], 40
+            font_size:      16
+        Label:
+            size_hint_x:    .02
+
+<con_del_pop>:
+    Label:
+        text:           " Confirm deletion"
+        size_hint_y:    0.2
+        pos_hint:       {"x": 0, "top": 1}
+        text_size:      self.size
+        halign:         "left"
+        valign:         "middle"
+    BoxLayout:
+        pos_hint:       {"x": 0, "top": 1}
+        Label:
+            size_hint_x:    .02
+        ListButton:
+            id:             okay
+            text:           "Delete"
+            size:           self.texture_size[0], 40
+            font_size:      16
+            on_release:
+                root.delete_prj(proj_list_spin.text)
                 app.root.ids.main_mng.ids.main_scrn.on_enter()
         Label:
             size_hint_x:    .05
