@@ -410,8 +410,13 @@
             size:           self.texture_size[0], 40
             font_size:      16
             on_release:
-                root.del_prj_list(proj_list_spin.text)
-                app.root.ids.main_mng.ids.main_scrn.on_enter()
+#                root.del_prj_list(proj_list_spin.text)
+#                app.root.ids.main_mng.ids.main_scrn.on_enter()
+                print(app.root.ids)
+                print(app.root.ids.main_mng.ids)
+                print(app.root.ids.main_mng.ids.main_scrn.ids)
+                print(app.root.ids.main_mng.ids.proj_scrn.ids)
+                print(app.root.ids.main_mng.ids.main_scrn.ids.add_prj_btn.ids)
         Label:
             size_hint_x:    .05
         ListButton:
@@ -422,7 +427,9 @@
         Label:
             size_hint_x:    .02
 
-<con_del_pop>:
+<confirm_pop>:
+    val_1:              confirm_text        # id of Label
+    val_2:
     Label:
         text:           " Confirm deletion"
         size_hint_y:    0.2
@@ -433,6 +440,7 @@
     BoxLayout:
         pos_hint:       {"x": 0, "top": 1}
         Label:
+            id:             confirm_text
             size_hint_x:    .02
         ListButton:
             id:             okay
@@ -440,6 +448,7 @@
             size:           self.texture_size[0], 40
             font_size:      16
             on_release:
+                delete_prj_item(conf_text.text)
                 root.delete_prj(proj_list_spin.text)
                 app.root.ids.main_mng.ids.main_scrn.on_enter()
         Label:
@@ -505,7 +514,9 @@
     MainManager:
         id:                     main_mng
     Footer:
+        id:                     foot
     MainMenu:
+        id:                     main_menue
 #        size_hint_x:            0.318
         size_hint_y:            None
         height:                 0

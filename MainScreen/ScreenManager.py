@@ -4,11 +4,12 @@ Ideas:
 https://www.python-forum.de/viewtopic.php?f=4&t=46427
 """
 from kivy import Config
+
 win_px = 960
 Config.set('graphics', 'width', str(win_px))
-Config.set('graphics', 'height', str(int(win_px*0.618)))
-Config.set('graphics', 'minimum_width', str(int(win_px*0.6)))
-Config.set('graphics', 'minimum_height', str(int(win_px*0.618*.5)))
+Config.set('graphics', 'height', str(int(win_px * 0.618)))
+Config.set('graphics', 'minimum_width', str(int(win_px * 0.6)))
+Config.set('graphics', 'minimum_height', str(int(win_px * 0.618 * .5)))
 
 import kivy
 from kivy.app import App
@@ -32,13 +33,12 @@ from kivy import Config
 
 Config.set('graphics', 'multisamples', '0')
 
-# Constants
+""" Constants """
 up_in = CardTransition(mode="push", direction="up", duration=".25")
 
-# Variables
+""" Variables """
 prj_list = ['Proj_1', 'proj-2', '3-jorp', '4_jorp']
 prj_list = []
-
 
 """ Layouts """
 class ProjectGridLayout(GridLayout):
@@ -55,7 +55,6 @@ class ProjectGridLayout(GridLayout):
             button.bind(on_release=lambda *args: setattr(sm, 'current', "proj_scrn"))
             button.bind(on_release=lambda *args: setattr(sm, 'transition', up_in))
             self.ids.cont_proj_list.add_widget(button)
-
 
 
 class SampleGridLayout(GridLayout):
@@ -122,6 +121,7 @@ class dup_prj_pop(FloatLayout):
         print(prj_list)
         return prj_list
 
+
 class del_prj_pop(FloatLayout):
     prj_list = ListProperty()
 
@@ -131,20 +131,31 @@ class del_prj_pop(FloatLayout):
 
     def del_prj_list(self, val):
         pop_pop(4)
-        return con_del_pop.delete_prj(val)
+        return confirm_pop.choice(val, 0)
         # return con_del_pop.delete_prj(val)
         # return c
 
-class con_del_pop(FloatLayout):
-    """ Popup to confirm the deletion """
-    prj_list = ListProperty()
-    value = StringProperty()
-
-    def delete_prj(val):
-        # TODO
+    def del_val(self, val):
         prj_list.remove(val)
-        # print(prj_list)
         return prj_list
+
+
+class confirm_pop(FloatLayout):
+    val_1 = ObjectProperty()
+    val_2 = StringProperty('')
+    """ Popup to confirm the deletion """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.val_1 = val
+        self.voice = self.voice
+
+    def choice(self, val, voice):
+        if voice == 0:
+            self.ids.conf_text.text = "Set Text"
+            del_prj_pop.del_val(val)
+        else:
+            pass
 
 
 """ Screens """
@@ -165,17 +176,17 @@ class MainScreen(Screen):
         https://stackoverflow.com/questions/35044166/how-do-i-add-buttons-that-are-dynamically-created-in-pure-python-to-a-kivy-layou
         """
         if not prj_list:
-            self.main_scrn.clear_widgets()      # Clear all widgets in main_scrn
+            self.main_scrn.clear_widgets()  # Clear all widgets in main_scrn
             self.ids.ope_prj_btn.disabled = True
             self.ids.dup_prj_btn.disabled = True
             self.ids.del_prj_btn.disabled = True
         else:
-            self.main_scrn.clear_widgets()      # Clear all widgets in main_scrn
+            self.main_scrn.clear_widgets()  # Clear all widgets in main_scrn
             self.ids.ope_prj_btn.disabled = False
             self.ids.dup_prj_btn.disabled = False
             self.ids.del_prj_btn.disabled = False
-            app = App.get_running_app()         # name of running app like #homepath
-            sm = app.root.ids.main_mng          # path from #homepath to #main_mng (ScreenManager Lvl 1)
+            app = App.get_running_app()  # name of running app like #homepath
+            sm = app.root.ids.main_mng  # path from #homepath to #main_mng (ScreenManager Lvl 1)
 
             for idx, name in enumerate(prj_list):
                 button = ProjButton(text=name)
@@ -201,6 +212,8 @@ class SampleScreen(Screen):
 
 
 """ App Elements """
+
+
 class Header(BoxLayout):
     head = ObjectProperty(None)
 
@@ -225,6 +238,11 @@ class ClassAllScreenApp(App):
     def build(self):
         self.root = ClassAllScreen()
         return self.root
+
+def delete_prj_item(item):
+    prj_list.remove(item)
+    return prj_list
+
 
 def check_str(val):
     if val in prj_list:
@@ -251,6 +269,7 @@ def check_str(val):
     else:
         return True
 
+
 def pop_pop(window):
     if window == 0:
         title_ = "Open Project"
@@ -274,7 +293,7 @@ def pop_pop(window):
         size_hint_ = (.5, .5)
     elif window == 4:
         title_ = "Confirm deletion"
-        pop_ = con_del_pop()
+        pop_ = confirm_pop()
         size_ = (300, 500)
         size_hint_ = (.5, .5)
 
