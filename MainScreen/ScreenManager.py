@@ -38,7 +38,7 @@ up_in = CardTransition(mode="push", direction="up", duration=".25")
 
 """ Variables """
 prj_list = ['Proj_1', 'proj-2', '3-jorp', '4_jorp']
-prj_list = []
+# prj_list = []
 
 """ Layouts """
 class ProjectGridLayout(GridLayout):

@@ -205,7 +205,7 @@
         orientation:            "vertical"
         Button:
             size_hint_y:        .1
-            text:               'Project Overview'
+            text:               'Back to Project Overview'
             on_release:
                 app.root.ids.main_mng.current = 'main_scrn'
                 app.root.ids.main_mng.transition = down_out
@@ -223,9 +223,11 @@
         orientation:            "vertical"
         # TODO Next Screen Level:               Include nested ScreenManager with Tabs and Functions (Converting, Merging, Plotting)
         # TODO Dynamic Sample Button list:      Has to be changed later if Sample buttons are added dynamically from within Python
+        TextInput:
+            tile_text:          "Hello"
         Button:
             size_hint_y:        .11
-            text:               'Sample'
+            text:               'Back to Project Overview'
             on_release:
                 app.root.ids.main_mng.current = 'main_scrn'
                 app.root.ids.main_mng.transition = down_out
