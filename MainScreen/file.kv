@@ -1,30 +1,31 @@
-<FileChooser>:
-    input:          input
-    orientation:    "vertical"
+<Filechooser>:
+    xhit: inp
+    orientation: 'vertical'
     BoxLayout:
+        # Creating list view one side
         FileChooserListView:
             canvas.before:
                 Color:
-                    rgb:    .4, .5, .5
+                    rgb: .4, .5, .5
                 Rectangle:
-                    pos:    self.pos
-                    size:   self.size
-            on_selection:   root.select(*args)
+                    pos: self.pos
+                    size: self.size
+            on_selection: root.select(*args)
+        # Creating Icon view other side
 #        FileChooserIconView:
 #            canvas.before:
 #                Color:
-#                    rgb:    .5, .4, .5
+#                    rgb: .5, .4, .5
 #                Rectangle:
-#                    pos:    self.pos
-#                    size:   self.size
-#            on_selection:   root.select(*args)
-    TextInput:
-        id:             input
-        text:           ""
-        size_hint_y:    .1
+#                    pos: self.pos
+#                    size: self.size
+#            on_selection: root.select(*args)
+    Label:
+        id: inp
+        size_hint_y: .1
         canvas.before:
             Color:
-                rgb:    .5, .5, .4
+                rgb: .5, .5, .4
             Rectangle:
-                pos:    self.pos
-                size:   self.size
+                pos: self.pos
+                size: self.size
