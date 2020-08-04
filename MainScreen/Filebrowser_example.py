@@ -4,7 +4,7 @@ https://stackoverflow.com/questions/32439330/add-filebrowser-in-kivy
 """
 from kivy.app import App
 from os.path import sep, expanduser, isdir, dirname
-from kivy.garden.filebrowser import FileBrowser
+
 
 class TestApp(App):
 
@@ -19,9 +19,11 @@ class TestApp(App):
 
     def _fbrowser_canceled(self, instance):
         print('cancelled, Close self.')
+        App.stop(self)
 
     def _fbrowser_success(self, instance):
         print(instance.selection)
+        App.stop(self)
 
 
 if __name__ == '__main__':
