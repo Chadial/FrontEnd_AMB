@@ -10,11 +10,13 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.clock import Clock
 
-#just solving my weak GPU issue
+# just solving my weak GPU issue
 from kivy import Config
 Config.set('graphics', 'multisamples', '0')
 
 kivy.require('1.9.1')
+
+Builder.load_file('screenmanager_ex1.kv')
 
 
 class ScreenManagement(ScreenManager):

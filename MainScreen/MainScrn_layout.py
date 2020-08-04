@@ -24,7 +24,7 @@ from kivy.properties import NumericProperty, StringProperty, BooleanProperty
 from kivy.core.window import Window, WindowBase
 
 
-Builder.load_file('main_scrn.kv')
+Builder.load_file('mainscrn_layout.kv')
 
 
 class MainMenu(BoxLayout):

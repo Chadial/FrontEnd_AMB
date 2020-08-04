@@ -1,0 +1,16 @@
+GridLayout:
+    id: layout
+    cols: 1
+    AppMenu:
+        id: app_menu
+        top: root.height
+        cancel_handler_widget: layout
+
+        AppMenuTextItem:
+            text: "Menu #1"
+            ContextMenu:
+                ContextMenuTextItem:
+                    text: "Item #11"
+
+    Button:
+        text:   "hello"

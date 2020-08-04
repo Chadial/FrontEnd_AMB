@@ -55,7 +55,7 @@ class Root(FloatLayout):
         self.dismiss_popup()
 
 
-class Editor(App):
+class filechooser_ex1(App):
     pass
 
 
@@ -65,4 +65,4 @@ Factory.register('SaveDialog', cls=SaveDialog)
 
 
 if __name__ == '__main__':
-    Editor().run()
+    filechooser_ex1().run()

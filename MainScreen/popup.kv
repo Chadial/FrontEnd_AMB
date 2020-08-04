@@ -1,0 +1,31 @@
+# https://stackoverflow.com/questions/48259400/kivy-using-popup-open
+<SaveAs>:
+    teinp: teinp
+    Button:
+        text:'Hi users'
+        on_release: root.on_call_popup()
+    TextInput:
+        id: teinp
+        text:'text input'
+
+<TextInputPopup>:
+    answer: answer
+    title: root.title
+    size_hint: None, None
+    size: app.root.width/2, app.root.height/2
+    auto_dismis: False
+
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: root.label
+        TextInput:
+            id: answer
+            text: ''
+        BoxLayout:
+            Button:
+                text: 'Cancel'
+                on_press: root.dismiss()
+            Button:
+                text: 'OK'
+                on_press: root.dismiss()

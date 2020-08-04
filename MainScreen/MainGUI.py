@@ -33,6 +33,9 @@ from kivy import Config
 
 Config.set('graphics', 'multisamples', '0')
 
+""" kv File """
+Builder.load_file('maingui.kv')
+
 """ Constants """
 up_in = CardTransition(mode="push", direction="up", duration=".25")
 
