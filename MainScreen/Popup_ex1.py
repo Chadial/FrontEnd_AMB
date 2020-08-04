@@ -10,7 +10,7 @@ from kivy.uix.popup import Popup
 from kivy.properties import StringProperty, ObjectProperty
 from kivy.lang.builder import Builder
 
-Builder.load_file('popup.kv')
+Builder.load_file('popup_ex1.kv')
 
 class TextInputPopup(Popup):
     title = StringProperty()
