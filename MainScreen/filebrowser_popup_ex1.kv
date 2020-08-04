@@ -1,31 +1,23 @@
 # https://stackoverflow.com/questions/48259400/kivy-using-popup-open
 <SaveAs>:
-    teinp: teinp
+    teinp:      teinp
     Button:
-        text:'Hi users'
+        text:   'Browse files'
         on_release: root.on_call_popup()
     TextInput:
-        id: teinp
-        text:'text input'
+        id:     teinp
+        text:   'Path input'
 
-<TextInputPopup>:
-    answer: answer
-    title: root.title
-    size_hint: None, None
-    size: app.root.width/2, app.root.height/2
-    auto_dismis: False
-
-    BoxLayout:
-        orientation: 'vertical'
-        Label:
-            text: root.label
-        TextInput:
-            id: answer
-            text: ''
-        BoxLayout:
-            Button:
-                text: 'Cancel'
-                on_press: root.dismiss()
-            Button:
-                text: 'OK'
-                on_press: root.dismiss()
+<FileBrowserPopup>:
+    choice:     choice
+    size_hint:  None, None
+    size:       app.root.width*.95, app.root.height*.95
+    FileBrowser:
+        id:             choice
+        title:          root.title
+        path:           root.path
+        select_string:  "Select"
+        on_success:
+#            print(self.filename)
+            root.dismiss()
+        on_canceled:    root.dismiss()

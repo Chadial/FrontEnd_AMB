@@ -5,40 +5,42 @@ https://stackoverflow.com/questions/53734589/kivy-how-to-use-filebrowser-properl
 """
 
 from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
-from kivy.properties import StringProperty, ObjectProperty
 from kivy.lang.builder import Builder
+from kivy.uix.boxlayout import BoxLayout
+from kivy.garden.filebrowser import FileBrowser
+from kivy.properties import StringProperty, ObjectProperty
 
 Builder.load_file('filebrowser_popup_ex1.kv')
 
-class TextInputPopup(Popup):
+class FileBrowserPopup(Popup):
     title = StringProperty()
-    label = StringProperty()
-    answer = ObjectProperty()
+    path = StringProperty()
+    choice = ObjectProperty()
 
-    def __init__(self, title, label, **kwargs):
-        super(TextInputPopup, self).__init__(**kwargs)
-        self.set_description(title, label)
+    def __init__(self, title, path, **kwargs):
+        super(FileBrowserPopup, self).__init__(**kwargs)
+        self.set_properties(title, path)
 
-    def set_description(self, title, label):
+    def set_properties(self, title, path):
         self.title = title
-        self.label = label
+        self.path = path
 
-    def get_answer(self):
-        return self.answer.text
+    def get_choice(self):
+        # print(self.choice.text)
+        return self.choice.text
 
 
 class SaveAs(BoxLayout):
-    teinp = ObjectProperty()
 
     def on_call_popup(self):
-        poti = TextInputPopup('File Manager', 'Name')
-        poti.open()
-        poti.bind(on_dismiss=self.next_step)
+        pop = FileBrowserPopup("File Manager", "D:/")
+        pop.open()
+        pop.bind(on_success=self.next_step)
 
     def next_step(self, popup):
-        self.teinp.text = popup.get_answer()
+        self.teinp.text = popup.get_choice()
+        print(self.teinp.text)
 
 
 class ExplorerApp(App):

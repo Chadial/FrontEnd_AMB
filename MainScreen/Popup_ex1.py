@@ -1,8 +1,6 @@
 """
 https://stackoverflow.com/questions/48259400/kivy-using-popup-open
 """
-
-
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
