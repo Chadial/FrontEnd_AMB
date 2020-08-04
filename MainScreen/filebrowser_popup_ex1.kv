@@ -9,7 +9,6 @@
         text:   'Path input'
 
 <FileBrowserPopup>:
-    choice:     choice
     size_hint:  None, None
     size:       app.root.width*.95, app.root.height*.95
     FileBrowser:
@@ -18,6 +17,7 @@
         path:           root.path
         select_string:  "Select"
         on_success:
-#            print(self.filename)
+            print(app.root.ids)
+            app.root.ids.teinp.text=self.filename
             root.dismiss()
         on_canceled:    root.dismiss()

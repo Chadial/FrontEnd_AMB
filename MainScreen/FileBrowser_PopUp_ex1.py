@@ -16,7 +16,7 @@ Builder.load_file('filebrowser_popup_ex1.kv')
 class FileBrowserPopup(Popup):
     title = StringProperty()
     path = StringProperty()
-    choice = ObjectProperty()
+    choice = StringProperty()
 
     def __init__(self, title, path, **kwargs):
         super(FileBrowserPopup, self).__init__(**kwargs)
@@ -27,11 +27,12 @@ class FileBrowserPopup(Popup):
         self.path = path
 
     def get_choice(self):
-        # print(self.choice.text)
-        return self.choice.text
+        print(self.choice.text)
+        return self.choice
 
 
 class SaveAs(BoxLayout):
+    teinp = ObjectProperty()
 
     def on_call_popup(self):
         pop = FileBrowserPopup("File Manager", "D:/")
