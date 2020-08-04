@@ -1,7 +1,8 @@
 """
 https://stackoverflow.com/questions/48259400/kivy-using-popup-open
+https://stackoverflow.com/questions/32439330/add-filebrowser-in-kivy
+https://stackoverflow.com/questions/53734589/kivy-how-to-use-filebrowser-properly-inside-of-a-popup
 """
-
 
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
@@ -9,7 +10,7 @@ from kivy.uix.popup import Popup
 from kivy.properties import StringProperty, ObjectProperty
 from kivy.lang.builder import Builder
 
-Builder.load_file('popup_ex1.kv')
+Builder.load_file('filebrowser_popup_ex1.kv')
 
 class TextInputPopup(Popup):
     title = StringProperty()
